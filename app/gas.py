@@ -11,12 +11,7 @@ class MQ2(Sensor):
     def __init__(self, tree):
         super.__init__(tree)
         self.device = AnalogIn(ADS.ADS1115(
-            busio.I2C(board.SCL, board.SDA)), self.pin)
-
-    def update(self, topic, value):
-        for setting in [self.state, self.trigger, self.relay, self.alarm]:
-            if setting['path'] == topic:
-                setting['value'] = value
+            busio.I2C(board.SCL, board.SDA)), self.config.pin)
 
     def _read(self):
         try:

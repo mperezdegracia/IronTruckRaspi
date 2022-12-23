@@ -10,7 +10,7 @@ class DHT_22(Sensor):
 
     def __init__(self, config):
         super(DHT_22, self).__init__(config)
-        self.device = adafruit_dht.DHT22(Pin(self.pin))
+        self.device = adafruit_dht.DHT22(Pin(self.config.pin))
 
     def update(self, topic, value):
         for setting in [self.state, self.trigger, self.relay, self.alarm]:
