@@ -37,7 +37,7 @@ def on_message(client, userdata, message):
     #print("message received " ,str(message.payload.decode("utf-8")))
     print "message topic=",message.topic, message.payload 
     #print("message qos=",message.qos)
-   # print("message retain flag=",message.retain)
+    # print("message retain flag=",message.retain)
 
 broker="192.168.1.100"
 port=1883
