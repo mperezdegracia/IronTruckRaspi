@@ -3,24 +3,26 @@
 Abstract Sensor Class
 
 '''
+import random
 
 
 class Sensor(object):
-    def __init__(self, config):
-        self.config = config
+    def __init__(self, pin, name):
+        self.pin = pin
+        self.state = None
+        self.name = name
 
     '''
     Must be overloaded by subclasses
     '''
 
     def _read(self):
+        # return JSON ? TODO
         pass
 
+    def testing_read(self):
+        self.state = random.randrange(20, 30, 1)
+        return self.state
 
-class Setting(object):
-    def __init__(self, pin, state=None, trigger=None, relay=None, alarm=None):
-        self.pin = pin
-        self.state = state
-        self.trigger = trigger
-        self.relay = relay
-        self.alarm = alarm
+    def __str__(self) -> str:
+        return f'[{ __class__.__name__}]  NAME: {self.name} | PIN: [{self.pin}]'

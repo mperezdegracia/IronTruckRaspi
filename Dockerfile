@@ -2,7 +2,7 @@
 FROM python:3.6.9-slim
 
 # Set the working directory to /app
-WORKDIR /app
+WORKDIR /IronTruckRaspi
 
 # Install any needed packages specified in requirements.txt
 RUN apt-get update -y && apt-get install -y build-essential
