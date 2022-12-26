@@ -66,6 +66,7 @@ port = 8086
 dbController = Influx(host, port)
 
 dbController.connect_db("IronTruck")
+
 while True:
     for i in range(20):
         data = [{
