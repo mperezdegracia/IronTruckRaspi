@@ -65,7 +65,7 @@ host = "influxdb"
 port = 8086
 dbController = Influx(host, port)
 
-dbController.connect_db()
+dbController.connect_db("IronTruck")
 
 for i in range(20):
     data = [{
