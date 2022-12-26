@@ -27,17 +27,6 @@ class Alarm(object):
         print(f'[DELETE] ---> {self}')
 
 
-class AlarmSettingPath(object):
-    def __init__(self, sensorId) -> None:
-        settingsPath = f'/508cb1cb59e8/settings/0/Settings/RpiSensors/{sensorId}'
-        self.trigger = f'{settingsPath}/AlarmTrigger'
-        self.relayMask = f'{settingsPath}/AlarmSetting'
-        self.alarmState = f'{settingsPath}/Alarm'
-
-    def update():
-        pass
-
-
 class InvalidAlarmSensorState(Exception):
     def __init__(self, alarm: Alarm) -> None:
         super().__init__(
