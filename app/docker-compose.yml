@@ -1,0 +1,62 @@
+version: '3.4'
+services:
+  server:
+    image: "victronenergy/venus-docker-server:latest"
+    ports:
+     - "8088:8088"
+    volumes:
+     - "config-storage:/media/usb/victron/config"
+    restart: always
+    networks:
+      - victron
+    container_name: server
+  upnp:
+    image: "victronenergy/venus-docker-upnp:latest"
+    network_mode: host
+    restart: always
+    container_name: upnp
+  influxdb:
+    image: "influxdb:1.7"
+    ports:
+     - "8086:8086"
+    volumes:
+     - "influxdb-storage:/media/usb/victron/influxdb"
+    environment:
+     - INFLUXDB_HTTP_LOG_ENABLED=false
+    restart: always
+    networks:
+      - victron
+    container_name: influxdb
+  sensor:
+# use your username instead of mine below!
+    image: 43988611/iot_dummy_sensor:v1.0-X86_64
+    links:
+      - influxdb
+    restart: always
+    networks:
+      - victron
+    container_name: sensors
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
+      - "/dev/gpiomem:/dev/gpiomem"
+  graphing:
+    image: "victronenergy/venus-docker-grafana:2.0.0"
+    volumes:
+      - "grafana-storage:/media/usb/victron/grafana"
+    links:
+      - sensor
+    ports:
+     - "3000:3000"
+    restart: always
+    networks:
+      - victron
+    container_name: grafana
+volumes:
+ influxdb-storage:
+ grafana-storage:
+ config-storage:
+
+networks:
+  victron:
+    driver: bridge
+    
