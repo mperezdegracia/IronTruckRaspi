@@ -20,5 +20,5 @@ COPY register2.py /app/register2.py
 # The -u flag specifies to use the unbuffered ouput.
 # in this way, what's printed by the app is visible on the host
 # while the container is running
-CMD python3 -u register2.py
+#CMD python3 -u register2.py
 
