@@ -17,7 +17,7 @@ class Influx(object):
         '''connect to the database, and create it if it does not exist'''
 
         print(f'[INFLUX] ---> connecting to database: {self.host}:{self.port}')
-        self.wait_for_server(self.host, self.port)
+        self.wait_for_server()
 
         create = False
         self.dbname = dbname
@@ -50,7 +50,7 @@ class Influx(object):
     def db_exists(self):
         '''returns True if the database exists'''
         for db in self.client.get_list_database():
-            if db['name'] == self.name:
+            if db['name'] == self.dbname:
                 return True
         return False
 
@@ -65,14 +65,17 @@ host = "influxdb"
 port = 8086
 dbController = Influx(host, port)
 
-dbController.connect_db()
+dbController.connect_db("IronTruck")
+while True:
+    for i in range(20):
+        data = [{
+            'measurement': 'test',
+            'time': datetime.datetime.now(),
+            'fields': {
+                'x': random.randint(1, 40),
+            },
+        }]
+        dbController.client.write_points(data)
 
-for i in range(20):
-    data = [{
-        'measurement': 'test',
-        'time': datetime.datetime.now(),
-        'fields': {
-            'x': random.randint(1, 40),
-        },
-    }]
-    dbController.client.write_points(data)
+    print(dbController.client.query(
+        'SELECT * FROM "test" GROUP BY * ORDER BY DESC LIMIT 1'))
