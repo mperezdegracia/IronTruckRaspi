@@ -53,7 +53,11 @@ class SensorController(object):
             },
         }
         fields = data['fields']
-        for measurement, value in self.sensor._read().items():
+        reading = self.sensor._read()
+
+        if reading is None:
+            return  # failed reading
+        for measurement, value in reading.items():
             fields[measurement] = value
 
         self.database.client.write_points([data])
