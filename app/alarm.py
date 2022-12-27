@@ -1,11 +1,11 @@
 from sensor import Sensor
+from register import SensorAlarmSettings
 
 
 class Alarm(object):
-    def __init__(self, sensor: Sensor, relay, triggerValue, inverseTrigger=False) -> None:
+    def __init__(self, sensor: Sensor, setting: SensorAlarmSettings, inverseTrigger=False) -> None:
         self.sensor = sensor
-        self.relay = relay
-        self.trigger = triggerValue
+        self.settings = setting
         self.is_inverse = inverseTrigger
 
     def start(self):
@@ -15,13 +15,13 @@ class Alarm(object):
         return self.sensor.state is not None
 
     def detect(self):
-        if not self.is_stateValid():
+        if not self.is_stateValid() or not self.settings.isValid():
             raise InvalidAlarmSensorState(self)
-        alarmState = self.sensor.state <= self.trigger
+        alarmState = self.sensor.state <= self.settings.getTrigger()
         return alarmState if self.is_inverse else not alarmState
 
     def __str__(self) -> str:
-        return f'[ALARM] ---> SENSOR: {self.sensor} | TRIGGER: {self.trigger} | INVERSE: {self.is_inverse}'
+        return f'[ALARM] ---> SENSOR: {self.sensor} | TRIGGER: {self.settings.getTrigger()} | INVERSE: {self.is_inverse}'
 
     def __del__(self):
         print(f'[DELETE] ---> {self}')

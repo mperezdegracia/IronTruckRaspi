@@ -1,4 +1,5 @@
-import board
-
-print(board['D21'])
-
+values = {
+    'a': None,
+    'b': "as"
+}
+print({None not in values.values()})

@@ -9,9 +9,9 @@ class Settings(object):
                 self.settings[key] = newValue
 
 
-class AlarmSettings(Settings):
+class SensorAlarmSettings(Settings):
 
-    def __init__(self, sensorId) -> None:
+    def __init__(self, sensorId, initialSettings={}) -> None:
         super().__init__()
         settingsPath = f'/508cb1cb59e8/settings/0/Settings/RpiSensors/{sensorId}'
         self.trigger = f'{settingsPath}/AlarmTrigger'
@@ -22,6 +22,22 @@ class AlarmSettings(Settings):
             self.relayMask: None,
             self.alarmState: None
         }
+        self.update(initialSettings)
+
+    def isValid(self):
+        return (None not in self.settings.values())
+
+    def getSettings(self):
+        return self.settings
+
+    def getTrigger(self):
+        return self.settings[self.trigger]
+
+    def getRelay(self):
+        return self.settings[self.relayMask]
+
+    def getState(self):
+        return self.settings[self.alarmState]
 
 
 class EmptySettingsException(Exception):

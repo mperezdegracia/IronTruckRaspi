@@ -21,7 +21,7 @@ class Sensor(object):
         pass
 
     def testing_read(self):
-        self.state = random.randrange(20, 30, 1)
+        self.state = random.randrange(20, 40, 1)
         return self.state
 
     def __str__(self) -> str:

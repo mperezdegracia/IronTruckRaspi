@@ -6,8 +6,8 @@ from register import *
 
 class MqttController(object):
 
-    def __init__(self, broker, port) -> None:
-        self.mqtt = paho.Client("IronTruck")  # create self.mqtt object
+    def __init__(self, broker, port=1883, clientName="test") -> None:
+        self.mqtt = paho.Client(clientName)  # create self.mqtt object
         self.mqtt.on_message = self.on_message
         self.mqtt.on_publish = self.on_publish
         self.mqtt.on_connect = self.on_connect

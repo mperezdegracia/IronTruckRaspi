@@ -61,6 +61,8 @@ class DBConnectionError(Exception):
             f'[DB] --> [ERROR] cant connect to database http://{session.host}:{session.port}')
 
 
+'''
+
 host = "influxdb"
 port = 8086
 dbController = Influx(host, port)
@@ -77,6 +79,9 @@ while True:
             },
         }]
         dbController.client.write_points(data)
-
     print(dbController.client.query(
-        'SELECT * FROM "test" GROUP BY * ORDER BY DESC LIMIT 1'))
+        'SELECT * FROM "test" GROUP BY * ORDER BY DESC LIMIT 1').raw)
+    time.sleep(4)
+
+
+'''
