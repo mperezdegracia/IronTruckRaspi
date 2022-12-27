@@ -22,7 +22,7 @@ influx.connect_db(DATABASE_NAME)
 
 BROKER = "192.168.1.101"  # IP Victron CCGX PORT: 1883 (default)
 CLIENT_NAME = "IronTruck"
-mqtt = MqttController(BROKER, CLIENT_NAME)
+mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 
 # ********************************
 
