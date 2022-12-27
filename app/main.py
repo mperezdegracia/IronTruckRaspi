@@ -7,7 +7,7 @@ from sensor import *
 from alarm import *
 from register import *
 
-'''
+
 # *********** INFLUX *************
 
 HOST = "influxdb"  # Docker InfluxDB container running address
@@ -20,12 +20,12 @@ influx.connect_db(DATABASE_NAME)
 
 # *********** MQTT ***************
 
-BROKER = "192.168.1.100"  # IP Victron CCGX PORT: 1883 (default)
+BROKER = "192.168.1.101"  # IP Victron CCGX PORT: 1883 (default)
 CLIENT_NAME = "IronTruck"
 mqtt = MqttController(BROKER, CLIENT_NAME)
 
 # ********************************
-'''
+
 # We now have running MQTT and InfluxDB database connection
 
 
