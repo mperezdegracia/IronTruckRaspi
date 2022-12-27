@@ -37,7 +37,7 @@ class SensorController(object):
         self.victron = victron
 
     def has_alarm(self):
-        return self.alarm is not None
+        return (self.alarm is not None)
 
     def create_alarm(self, settings: SensorAlarmSettings, inverse=False):
         self.alarm = Alarm(self.sensor, settings, inverse)
@@ -56,7 +56,7 @@ class SensorController(object):
         for measurement, value in self.sensor._read().items():
             fields[measurement] = value
 
-        self.database.client.write(data)
+        self.database.client.write_points([data])
 
         if(self.has_alarm()):
             state = self.alarm.detect()
