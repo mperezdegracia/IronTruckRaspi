@@ -7,7 +7,7 @@ setting = SensorAlarmSettings(0)
 alarm = Alarm(sensor, setting)
 setting_update = {
     setting.trigger: None,
-    setting.relayMask: 0,
+    setting.relayMask: '00000001',
     setting.alarmState: 1,
 }
 setting.update(setting_update)

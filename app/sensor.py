@@ -18,7 +18,7 @@ class Sensor(object):
 
     def _read(self):
         # return JSON ? TODO
-        pass
+        return {}
 
     def testing_read(self):
         self.state = random.randrange(20, 40, 1)

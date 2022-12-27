@@ -39,6 +39,13 @@ class SensorAlarmSettings(Settings):
     def getState(self):
         return self.settings[self.alarmState]
 
+    def _update(self, trigger, relay, alarmState):
+        self.settings = {
+            self.trigger: trigger,
+            self.relayMask: relay,
+            self.alarmState: alarmState
+        }
+
 
 class EmptySettingsException(Exception):
     def __init__(self, settings: Settings) -> None:

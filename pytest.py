@@ -1,2 +1,4 @@
-if False and True or True:
-    print("ok")
+relay = '00000001'
+
+for index, value in enumerate(relay):
+    print(f'{index} | value : {value}  {type(value)}')

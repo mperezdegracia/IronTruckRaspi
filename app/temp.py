@@ -18,7 +18,11 @@ class DHT_22(Sensor):
             temperature = self.device.temperature
             humidity = self.device.humidity
             self.state = temperature
-            return (temperature, humidity)  # successful
+
+            print(
+                f'{self} --> READING: temperature: {round(temperature,2)} , humidity: {round(humidity,2)}')
+            # successful
+            return {'temperature': temperature, 'humidity': humidity}
 
         except RuntimeError:
             pass
