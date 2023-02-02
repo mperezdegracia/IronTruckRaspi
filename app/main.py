@@ -45,12 +45,12 @@ def keep_alive_count (count):
         mqtt.keep_alive()
         count = 0
 def main():
-    
+    count = 0
     setup(network)
     while True:
 
         sensors_read(network)
-        keep_alive_count()
+        keep_alive_count(count)
         time.sleep(READING_FREC)
         
         
