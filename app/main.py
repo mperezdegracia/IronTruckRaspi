@@ -114,7 +114,7 @@ def setup():
     alarm = Alarm(sensor, setting)
     network.add(SensorController(sensor, influx, mqtt))
 
-def sensors_read(controllers):
+def sensors_read(network):
     for controller in network:
         controller.send_data()
 
@@ -124,7 +124,7 @@ def main():
     
     setup()
     while True:
-        sensors_read()
+        sensors_read(network)
         time.sleep(4)
 
 
