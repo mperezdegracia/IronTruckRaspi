@@ -49,8 +49,10 @@ class MqttController(object):
         topic = message.topic[1:]
 
 
-        controller = network.get(sensor_id)
-
+        controller = network.get(21)
+        if not controller:
+            #sensor not available 
+            return 
         if res == self.ALARM:
             pass
             controller.alarm.activate() if new_value else controller.alarm.deactivate()
