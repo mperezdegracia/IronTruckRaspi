@@ -4,8 +4,7 @@ import time
 from register import *
 import re
 import json
-import depend
-from depend import *
+from dummy import *
 
 
 class MqttController(object):
