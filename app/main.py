@@ -33,11 +33,10 @@ mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 class SensorController(object):
     def __init__(self, sensor: Sensor, settings: SensorAlarmSettings ,database: Influx, victron: MqttController) -> None:
         self.sensor = sensor
-        self.alarm = Alarm(self.sensor, self.settings)
         self.settings = settings
         self.database = database
         self.victron = victron
-
+        self.alarm = Alarm(self.sensor, self.settings)
 
     def has_alarm(self):
         return self.alarm.is_active
