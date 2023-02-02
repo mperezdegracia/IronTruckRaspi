@@ -81,5 +81,10 @@ class SensorControllerSet:
     def __iter__(self):
         return self.controllers.__iter__()
 
-
+    def __str__(self):
+        string = "["
+        for controller in self:
+            string += str(controller)
+            string += ' ' 
+        return f'CONTROLLER SET:  HEAD --->  {string}]'
 

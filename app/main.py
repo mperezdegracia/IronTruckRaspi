@@ -2,7 +2,6 @@ from depend import *
 from threading import Thread
 
 
-time.sleep(60)
 # *********** INFLUX *************
 
 
