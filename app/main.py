@@ -6,6 +6,7 @@ from gas import *
 from relay import *
 from alarm import *
 from register import *
+import asyncio
 
 
 # *********** INFLUX *************
@@ -62,25 +63,68 @@ class SensorController(object):
 
         self.database.client.write_points([data])
 
-        if(self.has_alarm()):
-            state = self.alarm.detect()
-            if(state):
-                # write something to database TODO
-                for index, value in enumerate(self.alarm.settings.getRelay()):
-                    if(value == '1'):
-                        RelayController.turnON(index)
+        if self.has_alarm() and self.alarm.detect() :
+            # write something to database TODO
+            for index, value in enumerate(self.alarm.settings.getRelay()):
+                if(value == '1'):
+                    RelayController.turnON(index)
 
         return
+    def __str__(self) -> str:
+        return f'Sensor: {self.sensor}, Alarm: {self.alarm}'
 
 
-sensors = []
-# create Sensor 1 (DHT22)
-sensor = DHT_22(pin=21, name="Habitacion de Mateo")
-setting = SensorAlarmSettings(0)._update(30, '00000001', 1)
-alarm = Alarm(sensor, setting)
 
-controller = SensorController(sensor, influx, mqtt)
+class SensorControllerSet:
 
-while True:
-    controller.send_data()
-    time.sleep(4)
+    def __init__(self) -> None:
+        self.controllers = []
+
+    def add(self,new_controller):
+        for controller in self.controllers:
+            if(controller.sensor.pin == new_controller.sensor.pin):
+                print(f'[FAILED] trying to add new controller {new_controller}')
+                return False
+
+        self.controllers.append(new_controller)
+        return True
+    def get(self, id):
+        for i, controller in enumerate(self.controllers):
+            if(controller.sensor.pin == id):
+                return self.controllers[i]
+        print(f'[FAILED] trying to get controller -> Sensor Pin: {id}')
+        return False
+
+    def __iter__(self):
+        return self.controllers.__iter__()
+
+
+
+
+
+
+
+network = SensorControllerSet()
+
+
+def setup():
+    # create Sensor 1 (DHT22)
+    sensor = DHT_22(pin=21, name="Habitacion de Mateo")
+    setting = SensorAlarmSettings(sensorId=0)._update(trigger=30, relay='00000001', alarmState=1)
+    alarm = Alarm(sensor, setting)
+    network.add(SensorController(sensor, influx, mqtt))
+    network.get()
+
+
+def sensors_read(controllers):
+    for controller in network:
+        controller.send_data()
+
+
+
+async def main():
+    
+    setup()
+    while True:
+        sensors_read()
+        time.sleep(4)

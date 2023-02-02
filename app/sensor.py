@@ -8,7 +8,7 @@ import random
 
 class Sensor(object):
     def __init__(self, pin, name):
-        self.pin = pin
+        self.pin = pin  # pin = id
         self.state = None
         self.name = name
 
