@@ -122,9 +122,12 @@ def sensors_read(controllers):
 
 
 
-async def main():
+def main():
     
     setup()
     while True:
         sensors_read()
         time.sleep(4)
+
+
+main()
