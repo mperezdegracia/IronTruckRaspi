@@ -5,7 +5,7 @@ from register import *
 import re
 import json
 from dummy import *
-
+'''
 
 class MqttController(object):
     ALARM = 0
@@ -105,3 +105,4 @@ if __name__ == '__main__':
 
 
 
+'''

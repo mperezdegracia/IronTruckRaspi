@@ -9,8 +9,6 @@ from register import *
 
 
 
-
-
 class SensorController(object):
     def __init__(self, sensor: Sensor, settings: SensorAlarmSettings ,database: Influx, victron: MqttController) -> None:
         self.sensor = sensor
