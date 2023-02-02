@@ -4,13 +4,13 @@ import time
 from register import *
 import re
 import json
-from depend import *
+#from depend import *
 class MqttController(object):
     ALARM = 0
     RELAY = 1
     TRIGGER = 2
     ERROR = -1
-    prefix = 'R/508cb1cb59e8/settings/0/Settings/RpiSensors/'
+    prefix = 'N/508cb1cb59e8/settings/0/Settings/RpiSensors/'
 
 
 
@@ -40,13 +40,11 @@ class MqttController(object):
     def on_message(self, mqtt, userdate, message):
 
         res, sensor_id= self.pattern(message.topic)
-
         global network
 
         new_value = json.loads(message.payload)['value']
         topic = message.topic[1:]
 
-        print(network)
 
         controller = network.get(sensor_id)
 
@@ -72,11 +70,15 @@ class MqttController(object):
         print(f'[MQTT] -> SUSCRIBED')
 
     def suscribeAll(self, obj: Settings):
-        if not obj:
+        if not obj: 
             raise EmptySettingsException(obj)
         for topic in obj.settings:
-            self.mqtt.subscribe(f'R{topic}')
+            print(f'SUBSCRIBING TO N{topic}')
+            self.mqtt.publish(f'R{topic}')
+            self.mqtt.subscribe(f'N{topic}')
 
+    def keep_alive(self):
+        self.mqtt.publish("R/508cb1cb59e8/keepalive")
 
 
 
@@ -89,11 +91,13 @@ if __name__ == '__main__':
     #mqtt_controller.mqtt.subscribe('R/508cb1cb59e8/settings/0/Settings/RpiSensors/0/Alarm')
 
     while True:
-        mqtt_controller.mqtt.publish(
-            'R/508cb1cb59e8/settings/0/Settings/RpiSensors/0/Alarm', json.dumps({'value': 1}), qos=1)
-        time.sleep(4)
-        mqtt_controller.mqtt.publish(
-            'R/508cb1cb59e8/settings/0/Settings/RpiSensors/0/Alarm', json.dumps({'value': 0}), qos=1)
+        #
+        # #mqtt_controller.mqtt.publish(
+        #    'R/508cb1cb59e8/settings/0/Settings/RpiSensors/0/Alarm', json.dumps({'value': 1}), qos=1)
+        mqtt_controller.keep_alive()
+        time.sleep(30)
+       #mqtt_controller.mqtt.publish(
+          #  'R/508cb1cb59e8/settings/0/Settings/RpiSensors/0/Alarm', json.dumps({'value': 0}), qos=1)
 
 
 

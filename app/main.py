@@ -1,5 +1,5 @@
 from depend import * 
-
+from threading import Thread
 
 
 time.sleep(60)
@@ -39,14 +39,17 @@ def sensors_read(network):
         controller.send_data()
 
 
-
+def mqtt_keep_alive(mqtt):
+    while True:
+        mqtt.keep_alive()
+        time.sleep(30)
 def main():
     
     setup(network)
-    
+    keep_alive = Thread(target=mqtt_keep_alive)
+    keep_alive.start()
     while True:
         sensors_read(network)
         time.sleep(4)
-
 
 main()
