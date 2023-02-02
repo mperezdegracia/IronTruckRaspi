@@ -45,7 +45,7 @@ class Influx(object):
                 time.sleep(waiting_time)
                 waiting_time *= 2
                 pass
-        raise DBConnectionError(self.client)
+        raise DBConnectionError(self)
 
     def db_exists(self):
         '''returns True if the database exists'''

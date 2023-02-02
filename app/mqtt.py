@@ -3,7 +3,8 @@ import json
 import time
 from register import *
 import re
-
+import json
+from depend import *
 class MqttController(object):
     ALARM = 0
     RELAY = 1
@@ -37,25 +38,27 @@ class MqttController(object):
     
         
     def on_message(self, mqtt, userdate, message):
-        # print(
-        #    f'[MQTT] -> RECEIVED ---> {message.topic} = {message.payload.decode("utf-8")}')
-        
 
-        res = self.pattern(message.topic)[0]
-    
+        res, sensor_id= self.pattern(message.topic)
+
+        global network
+
+        new_value = json.loads(message.payload)['value']
+        topic = message.topic[1:]
+
+        print(network)
+
+        controller = network.get(sensor_id)
+
         if res == self.ALARM:
-            print(f'[ALARM] {message.topic} | new value: {message.payload}')
-            #CREATE ALARM
-        elif res == self.RELAY:
-            print(f'[RELAY] {message.topic} | new value: {message.payload}')
-            #UPDATE RELAY SETTINGS FOR ALARM ID 
-        elif res  == self.TRIGGER:
-            #UPDATE TRIGGER SETTINGS FOR ALARM ID 
-            print(f'[TRIGGER] {message.topic} | new value: {message.payload}')
+            pass
+            controller.alarm.activate() if new_value else controller.alarm.deactivate()
+        
+        
+        print(
+        f'[MQTT] -> RECEIVED ---> {topic} = {new_value}')
 
-        else:
-            print(
-        f'[MQTT] -> RECEIVED ---> {message.topic} = {message.payload}')
+        controller.settings.update({topic: new_value})
 
     def on_connect(self, client, userdata, flags, rc):
         print(
@@ -73,6 +76,9 @@ class MqttController(object):
             raise EmptySettingsException(obj)
         for topic in obj.settings:
             self.mqtt.subscribe(f'R{topic}')
+
+
+
 
 if __name__ == '__main__':
 
