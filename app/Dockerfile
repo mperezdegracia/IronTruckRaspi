@@ -20,11 +20,11 @@ COPY register.py /app/register.py
 COPY sensor.py /app/sensor.py
 COPY alarm.py /app/alarm.py
 COPY relay.py /app/relay.py
-
+COPY main.py /app/main.py
 
 # Run app.py when the container launches
 # The -u flag specifies to use the unbuffered ouput.
 # in this way, what's printed by the app is visible on the host
 # while the container is running
-CMD python3 -u influx.py
+CMD python3 -u main.py
 

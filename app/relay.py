@@ -23,10 +23,10 @@ class RelayController(object):
         GPIO.output(relay, GPIO.LOW)
 
 
-'''
-RelayController.turnON(0)
-time.sleep(3)
-RelayController.turnOFF(0)
+for i in range(8):
+    RelayController.turnOFF(i)
+    time.sleep(1)
+    RelayController.turnON(i)
 
 
-'''
+
