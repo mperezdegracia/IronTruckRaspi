@@ -21,6 +21,8 @@ COPY sensor.py /app/sensor.py
 COPY alarm.py /app/alarm.py
 COPY relay.py /app/relay.py
 COPY main.py /app/main.py
+COPY depend.py /app/depend.py
+COPY controllers.py /app/controllers.py
 
 # Run app.py when the container launches
 # The -u flag specifies to use the unbuffered ouput.
