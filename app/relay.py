@@ -22,11 +22,9 @@ class RelayController(object):
         relay = RelayController.RELAYS[relayNumber]
         GPIO.output(relay, GPIO.LOW)
 
+if __name__ == '__main__':
 
-for i in range(8):
-    RelayController.turnOFF(i)
-    time.sleep(1)
-    RelayController.turnON(i)
-
-
-
+    for i in range(8):
+        RelayController.turnOFF(i)
+        time.sleep(1)
+        RelayController.turnON(i)
