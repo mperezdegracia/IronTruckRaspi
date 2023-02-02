@@ -21,7 +21,8 @@ CLIENT_NAME = "IronTruck"
 mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 
 # ********************************
-
+READING_FREC = 5
+KEEP_ALIVE = 30
 # We now have running MQTT and InfluxDB database connection
 
 
@@ -38,18 +39,19 @@ def sensors_read(network):
     for controller in network:
         controller.send_data()
 
-
-def mqtt_keep_alive(mqtt):
-    while True:
+def keep_alive_count (count):
+    count += 1
+    if(count * READING_FREC == KEEP_ALIVE):
         mqtt.keep_alive()
-        time.sleep(30)
+        count = 0
 def main():
     
     setup(network)
-    keep_alive = Thread(target=mqtt_keep_alive)
-    keep_alive.start()
     while True:
-        sensors_read(network)
-        time.sleep(4)
 
+        sensors_read(network)
+        keep_alive_count()
+        time.sleep(READING_FREC)
+        
+        
 main()

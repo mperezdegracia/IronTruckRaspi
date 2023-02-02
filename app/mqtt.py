@@ -5,6 +5,8 @@ from register import *
 import re
 import json
 from depend import *
+
+
 class MqttController(object):
     ALARM = 0
     RELAY = 1
