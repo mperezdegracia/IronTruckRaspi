@@ -39,21 +39,23 @@ class MqttController(object):
     def on_message(self, mqtt, userdate, message):
         # print(
         #    f'[MQTT] -> RECEIVED ---> {message.topic} = {message.payload.decode("utf-8")}')
+        
 
-        match self.pattern(message.topic)[0]:
-            case self.ALARM:
-                print(f'[ALARM] {message.topic} | new value: {message.payload}')
-                #CREATE ALARM
-            case self.RELAY:
-                print(f'[RELAY] {message.topic} | new value: {message.payload}')
-                #UPDATE RELAY SETTINGS FOR ALARM ID 
-            case self.TRIGGER:
-                #UPDATE TRIGGER SETTINGS FOR ALARM ID 
-                print(f'[TRIGGER] {message.topic} | new value: {message.payload}')
+        res = self.pattern(message.topic)[0]
+    
+        if res == self.ALARM:
+            print(f'[ALARM] {message.topic} | new value: {message.payload}')
+            #CREATE ALARM
+        elif res == self.RELAY:
+            print(f'[RELAY] {message.topic} | new value: {message.payload}')
+            #UPDATE RELAY SETTINGS FOR ALARM ID 
+        elif res  == self.TRIGGER:
+            #UPDATE TRIGGER SETTINGS FOR ALARM ID 
+            print(f'[TRIGGER] {message.topic} | new value: {message.payload}')
 
-            case _:
-                print(
-            f'[MQTT] -> RECEIVED ---> {message.topic} = {message.payload}')
+        else:
+            print(
+        f'[MQTT] -> RECEIVED ---> {message.topic} = {message.payload}')
 
     def on_connect(self, client, userdata, flags, rc):
         print(
