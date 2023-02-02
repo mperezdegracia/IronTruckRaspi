@@ -113,8 +113,6 @@ def setup():
     setting = SensorAlarmSettings(sensorId=0)._update(trigger=30, relay='00000001', alarmState=1)
     alarm = Alarm(sensor, setting)
     network.add(SensorController(sensor, influx, mqtt))
-    network.get()
-
 
 def sensors_read(controllers):
     for controller in network:
