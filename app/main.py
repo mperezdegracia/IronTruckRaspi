@@ -174,7 +174,7 @@ class SensorControllerSet:
 #            --------
 #***********|  MAIN  |**************
 #            --------
-time.sleep(60)
+#time.sleep(60)
 # *********** INFLUX *************
 
 
@@ -199,7 +199,7 @@ KEEP_ALIVE = 30
 
 
 
-
+network = SensorControllerSet()
 def setup(network):
     # create Sensor 1 (DHT22)
     settings = SensorAlarmSettings(sensorId=0)._update(trigger=30, relay='00000001', alarmState=1)
