@@ -42,12 +42,9 @@ class MqttController(object):
     def on_message(self, mqtt, userdate, message):
 
         res, sensor_id= self.pattern(message.topic)
-        global network
-
         new_value = json.loads(message.payload)['value']
         topic = message.topic[1:]
-
-
+        print(network)
         controller = network.get(21)
         if not controller:
             #sensor not available 

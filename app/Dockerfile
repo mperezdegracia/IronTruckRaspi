@@ -23,6 +23,7 @@ COPY relay.py /app/relay.py
 COPY main.py /app/main.py
 COPY depend.py /app/depend.py
 COPY controllers.py /app/controllers.py
+COPY dummy.py /app/dummy.py
 
 # Run app.py when the container launches
 # The -u flag specifies to use the unbuffered ouput.
