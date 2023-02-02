@@ -31,20 +31,20 @@ mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 
 
 class SensorController(object):
-    def __init__(self, sensor: Sensor, database: Influx, victron: MqttController) -> None:
+    def __init__(self, sensor: Sensor, settings: SensorAlarmSettings ,database: Influx, victron: MqttController) -> None:
         self.sensor = sensor
-        self.alarm = None
+        self.alarm = Alarm(self.sensor, self.settings)
+        self.settings = settings
         self.database = database
         self.victron = victron
 
+
     def has_alarm(self):
-        return (self.alarm is not None)
+        return self.alarm.is_active
 
-    def create_alarm(self, settings: SensorAlarmSettings, inverse=False):
-        self.alarm = Alarm(self.sensor, settings, inverse)
+    def create_alarm(self, inverse=False):
+        self.alarm = Alarm(self.sensor, self.settings, inverse)
 
-    def delete_alarm(self):
-        self.alarm = None
 
     def send_data(self):
         data = {
@@ -70,6 +70,9 @@ class SensorController(object):
                     RelayController.turnON(index)
 
         return
+
+
+
     def __str__(self) -> str:
         return f'Sensor: {self.sensor}, Alarm: {self.alarm}'
 
@@ -109,11 +112,9 @@ network = SensorControllerSet()
 
 def setup():
     # create Sensor 1 (DHT22)
-    sensor = DHT_22(pin=21, name="Habitacion de Mateo")
-    setting = SensorAlarmSettings(sensorId=0)._update(trigger=30, relay='00000001', alarmState=1)
-    alarm = Alarm(sensor, setting)
-    network.add(SensorController(sensor, influx, mqtt))
-
+    network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(sensorId=0)._update(trigger=30, relay='00000001', alarmState=1), influx, mqtt))
+    #TODO no deberia hacer falta el _update
+    #TODO arreglar el tema del sensor_id
 def sensors_read(network):
     for controller in network:
         controller.send_data()

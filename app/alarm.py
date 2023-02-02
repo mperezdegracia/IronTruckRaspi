@@ -7,9 +7,16 @@ class Alarm(object):
         self.sensor = sensor
         self.settings = setting
         self.is_inverse = inverseTrigger
+        self.is_active = False
 
-    def start(self):
+    def start(self): #TODO
         pass
+    
+    def activate(self):
+        self.is_active = True
+
+    def deactivate(self):
+        self.is_active = False
 
     def is_stateValid(self):
         return self.sensor.state is not None
@@ -24,7 +31,7 @@ class Alarm(object):
         return f'[ALARM] ---> SENSOR: {self.sensor} | TRIGGER: {self.settings.getTrigger()} | INVERSE: {self.is_inverse}'
 
     def __del__(self):
-        print(f'[DELETE] ---> {self}')
+        print(f'[DELETE] ---> ALARM to {self.sensor}') #print(f'[DELETE] ---> {self}')
 
 
 class InvalidAlarmSensorState(Exception):

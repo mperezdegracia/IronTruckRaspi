@@ -1,6 +1,2 @@
-string = "hello"
-def change():
-    string = "bye"
-    
-change()
-print(string)
+string = "1"
+print(1  + int(string))

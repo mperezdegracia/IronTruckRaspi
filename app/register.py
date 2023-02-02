@@ -45,6 +45,7 @@ class SensorAlarmSettings(Settings):
             self.relayMask: relay,
             self.alarmState: alarmState
         }
+        return self
 
 
 class EmptySettingsException(Exception):
