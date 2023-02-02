@@ -1,5 +1,10 @@
 from depend import * 
+
+
+
+time.sleep(60)
 # *********** INFLUX *************
+
 
 HOST = "influxdb"  # Docker InfluxDB container running address
 PORT = 8086
@@ -26,7 +31,7 @@ def setup(network):
     # create Sensor 1 (DHT22)
     settings = SensorAlarmSettings(sensorId=0)._update(trigger=30, relay='00000001', alarmState=1)
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),settings, influx, mqtt))
-    mqtt_controller.suscribeAll(settings)
+    mqtt.suscribeAll(settings)
     #TODO no deberia hacer falta el _update
     #TODO arreglar el tema del sensor_id
 def sensors_read(network):
@@ -38,7 +43,7 @@ def sensors_read(network):
 def main():
     
     setup(network)
-    time.sleep(60)
+    
     while True:
         sensors_read(network)
         time.sleep(4)
