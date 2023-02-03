@@ -1,4 +1,3 @@
-from mqtt import *
 from influx import *
 from sensor import *
 from temp import *
@@ -237,7 +236,7 @@ READING_FREC = 5
 
 network = SensorControllerSet()
 def setup(network):
-    network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(sensorId=0), influx, mqtt))
+    network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
     #TODO no deberia hacer falta el _update
     #TODO arreglar el tema del sensor_id
 def sensors_read(network):
