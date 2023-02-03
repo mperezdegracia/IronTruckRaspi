@@ -8,10 +8,13 @@ class RelayMask:
         
     def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0' or '1'
         self.__mask |= int(setting,2)
+    
     def invert(self):
         self.__mask ^= 0
+    
     def reset(self):
         self.__mask = 0
+    
     def __iter__ (self):
         return self.__mask.__iter__()
     def get(self):

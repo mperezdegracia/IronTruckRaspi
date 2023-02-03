@@ -146,6 +146,7 @@ class SensorController(object):
             else:
                 # this would execute if the controller is not contained in network
                 # only use if this sensor is working alone
+                print("*************************THIS SHOULD NOT BE EXECUTED***********************")
                 if triggered:
                     if state:
                         RelayController.apply_setting(settings)    
