@@ -8,7 +8,7 @@ from adafruit_ads1x15.analog_in import AnalogIn
 
 
 class MQ2(Sensor):
-
+    HYSTERESIS = 0,1 # 10% del trigger value
     def __init__(self, pin, name):
         super(MQ2, self).__init__(pin, name)
         self.device = AnalogIn(ADS.ADS1115(

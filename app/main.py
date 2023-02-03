@@ -230,7 +230,7 @@ CLIENT_NAME = "IronTruck"
 mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 KEEP_ALIVE = 30
 # ********************************
-READING_FREC = 5
+READING_FREC = 2
 
 # We now have running MQTT and InfluxDB database connection
 
@@ -239,6 +239,7 @@ READING_FREC = 5
 network = SensorControllerSet()
 def setup():
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
+    network.add(SensorController(MQ2(pin=0, name="GAS Cocina"),SensorAlarmSettings(id=1), influx, mqtt))
     #TODO no deberia hacer falta el _update
     #TODO arreglar el tema del sensor_id
 def sensors_read():
