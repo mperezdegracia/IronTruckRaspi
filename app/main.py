@@ -237,11 +237,11 @@ READING_FREC = 5
 
 
 network = SensorControllerSet()
-def setup(network):
+def setup():
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
     #TODO no deberia hacer falta el _update
     #TODO arreglar el tema del sensor_id
-def sensors_read(network:SensorControllerSet):
+def sensors_read():
     for controller in network:
         controller.send_data()
     RelayController.apply_mask(network.relay_mask)
@@ -254,10 +254,10 @@ def keep_alive_count (count):
         count = 0
 def main():
     count = 0
-    setup(network)
+    setup()
     while True:
 
-        sensors_read(network)
+        sensors_read()
         keep_alive_count(count)
         time.sleep(READING_FREC)
         
