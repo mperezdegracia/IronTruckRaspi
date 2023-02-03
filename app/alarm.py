@@ -25,7 +25,8 @@ class Alarm(object):
     
     def triggered(self):
         result =  self.__state != self.__last_state
-        if result : print(f'[ALARM] [TRIGGERED] --> {self.sensor}')
+        if result : 
+            print(f'[ALARM] [TRIGGERED] --> {self.sensor}')
         return result
         
     def get_state(self):
@@ -35,9 +36,9 @@ class Alarm(object):
             raise InvalidAlarmSensorState(self)
         if self.__last_state:
             # Entonces la alarma ya está sonando, checkeamos con histéresis
-            alarmState = self.sensor.state <= (self.settings.getTrigger()*(1- self.sensor.HYSTERESIS))
+            alarmState = self.sensor.state >= (self.settings.getTrigger()*(1- self.sensor.HYSTERESIS))
         else: 
-            alarmState = self.sensor.state <= self.settings.getTrigger()
+            alarmState = self.sensor.state >= self.settings.getTrigger()
 
         alarmState = alarmState ^ self.is_inverse
         print(f'[ALARM] [STATE]] ---> {alarmState} last: {self.__last_state}')
@@ -45,7 +46,7 @@ class Alarm(object):
         self.__last_state = self.__state
         self.__state = alarmState
         
-        return alarmState 
+        return self.triggered() 
 
 
 

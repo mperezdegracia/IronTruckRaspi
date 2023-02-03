@@ -132,9 +132,8 @@ class SensorController(object):
         self.database.client.write_points([data])
 
         if self.has_alarm():
-            self.alarm.detect()
 
-            if(self.alarm.triggered):
+            if(self.alarm.detect()):
 
                 #state changed 
                 # write something to database TODO
