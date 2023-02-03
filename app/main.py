@@ -169,7 +169,7 @@ class SensorControllerSet:
     def __init__(self) -> None:
         self.controllers = []
         self.relay_mask = RelayMask()
-
+    
     def add(self,new_controller):
         for controller in self.controllers:
             if(controller.sensor == new_controller.sensor):
@@ -239,9 +239,10 @@ def setup(network):
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
     #TODO no deberia hacer falta el _update
     #TODO arreglar el tema del sensor_id
-def sensors_read(network):
+def sensors_read(network:SensorControllerSet):
     for controller in network:
         controller.send_data()
+    RelayController.apply_mask(network.relay_mask)
 
 def keep_alive_count (count):
     count += 1
