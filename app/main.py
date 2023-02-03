@@ -125,6 +125,9 @@ class SensorController(object):
         reading = self.sensor._read()
 
         if reading is None:
+            if(self.relay_mask):
+                if(self.alarm.get_state()): # checkea el estado previo y mantiene la configuracion de relays correspondiente
+                    self.relay_mask.apply_to_mask(settings)  
             return  # failed reading
         for measurement, value in reading.items():
             fields[measurement] = value
