@@ -11,9 +11,10 @@ class Settings(object):
 
 class SensorAlarmSettings(Settings):
 
-    def __init__(self, sensorId, initialSettings={}) -> None:
+    def __init__(self, id, initialSettings={}) -> None:
         super().__init__()
-        settingsPath = f'/508cb1cb59e8/settings/0/Settings/RpiSensors/{sensorId}'
+        self.id = id 
+        settingsPath = f'/508cb1cb59e8/settings/0/Settings/RpiSensors/{self.id}'
         self.trigger = f'{settingsPath}/AlarmTrigger'
         self.relayMask = f'{settingsPath}/AlarmSetting'
         self.alarmState = f'{settingsPath}/Alarm'

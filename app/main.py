@@ -5,8 +5,14 @@ from temp import *
 from gas import *
 from relay import *
 from alarm import *
-from register import *
+from settings import *
 from threading import Thread
+import paho.mqtt.client as paho
+import json
+import time
+from settings import *
+import re
+import json
 
 #**********************  CONTROLLERS *******************************
 class MqttController(object):
@@ -50,7 +56,7 @@ class MqttController(object):
         topic = message.topic[1:]
 
 
-        controller = network.get(21)
+        controller = network.get(sensor_id)
         if not controller:
             #sensor not available 
             return 
@@ -96,7 +102,8 @@ class SensorController(object):
         self.settings = settings
         self.database = database
         self.victron = victron
-        self.alarm = Alarm(self.sensor, self.settings)
+        self.alarm = Alarm(self.sensor, self.settings)   
+        self.victron.suscribeAll(settings)
 
     def has_alarm(self):
         return self.alarm.is_active
@@ -144,17 +151,22 @@ class SensorControllerSet:
 
     def add(self,new_controller):
         for controller in self.controllers:
-            if(controller.sensor.pin == new_controller.sensor.pin):
-                print(f'[FAILED] trying to add new controller {new_controller}')
+            if(controller.sensor == new_controller.sensor):
+                print(f'[MAIN][FAILED] trying to add a controller that already exists! {new_controller}')
+                return False
+            if(controller.settings.id == new_controller.settings.id):
+                print(f'[MAIN][FAILED] same setting ID for different controllers! {new_controller}')
                 return False
 
         self.controllers.append(new_controller)
         return True
-    def get(self, id):
+
+
+    def get(self, setting_id):
         for i, controller in enumerate(self.controllers):
-            if(controller.sensor.pin == id):
+            if(controller.settings.id == setting_id):
                 return self.controllers[i]
-        print(f'[FAILED] trying to get controller -> Sensor Pin: {id}')
+        print(f'[MAIN][FAILED] trying to get controller -> Sensor Pin: {setting_id}')
         return False
 
     def __iter__(self):
@@ -163,18 +175,20 @@ class SensorControllerSet:
     def __str__(self):
         string = "["
         for controller in self:
-            string += str(controller)
-            string += ' ' 
-        return f'CONTROLLER SET:  HEAD --->  {string}]'
+            string += f'{str(controller)}, '
+        string = f'{string[:-2] }]'
+        return f'[MAIN] CONTROLLER SET:  HEAD --->  {string}'
 
 
-#***********************************************************
+#*********************************
 
 
 #            --------
-#***********|  MAIN  |**************
+#***********|  MAIN  |************
 #            --------
-#time.sleep(60)
+
+
+
 # *********** INFLUX *************
 
 
@@ -191,20 +205,17 @@ influx.connect_db(DATABASE_NAME)
 BROKER = "192.168.1.101"  # IP Victron CCGX PORT: 1883 (default)
 CLIENT_NAME = "IronTruck"
 mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
-
+KEEP_ALIVE = 30
 # ********************************
 READING_FREC = 5
-KEEP_ALIVE = 30
+
 # We now have running MQTT and InfluxDB database connection
 
 
 
 network = SensorControllerSet()
 def setup(network):
-    # create Sensor 1 (DHT22)
-    settings = SensorAlarmSettings(sensorId=0)._update(trigger=30, relay='00000001', alarmState=1)
-    network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),settings, influx, mqtt))
-    mqtt.suscribeAll(settings)
+    network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(sensorId=0), influx, mqtt))
     #TODO no deberia hacer falta el _update
     #TODO arreglar el tema del sensor_id
 def sensors_read(network):

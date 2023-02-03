@@ -1,5 +1,5 @@
 from sensor import Sensor
-from register import SensorAlarmSettings
+from settings import SensorAlarmSettings
 
 
 class Alarm(object):

@@ -12,6 +12,12 @@ class Sensor(object):
         self.state = None
         self.name = name
 
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, self.__class__):
+            return self.pin == other.pin
+        return False
+    
+
     '''
     Must be overloaded by subclasses
     '''
