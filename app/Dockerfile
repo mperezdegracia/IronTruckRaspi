@@ -15,15 +15,11 @@ RUN apt-get install -y libgpiod2
 COPY gas.py /app/gas.py
 COPY temp.py /app/temp.py
 COPY influx.py /app/influx.py
-COPY mqtt.py /app/mqtt.py
-COPY register.py /app/register.py
+COPY settings.py /app/settings.py
 COPY sensor.py /app/sensor.py
 COPY alarm.py /app/alarm.py
 COPY relay.py /app/relay.py
 COPY main.py /app/main.py
-COPY depend.py /app/depend.py
-COPY controllers.py /app/controllers.py
-COPY dummy.py /app/dummy.py
 
 # Run app.py when the container launches
 # The -u flag specifies to use the unbuffered ouput.
