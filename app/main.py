@@ -138,12 +138,24 @@ class SensorController(object):
             if(self.alarm.triggered):
                 #state changed 
                 # write something to database TODO
-                for index, value in enumerate(self.alarm.settings.getRelay()):
-                    if(value == '1'):
-                        RelayController.turnON(index) if self.alarm.get_state() else RelayController.turnOFF(index)
+                state = self.alarm.get_state()
+                settings = self.alarm.settings.getRelay()
+                if(self.relay_mask):
+                    if(state):
+                        self.relay_mask.apply_to_mask(settings)  
+                else:
+                    # this would execute if the controller is not contained in network
+                    # only use if this sensor is working alone
+                    if(state):
+                        RelayController.apply_setting(settings)    
+                    else:
+                        RelayController.allOFF()
+
+                    
+                    
                     
                     # We don´t want different alarms overriding the relay state, turning on and off the relay
-                    # we should create a RELAY MASK, and then applying the mask to  
+                    # we should create a RELAY MASK, and then applying the mask:   DONE bruh
         return
 
 
