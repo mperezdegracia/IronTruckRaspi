@@ -4,14 +4,15 @@ import time
 class RelayMask:
     def __init__(self,initial = '00000000') -> None:
         self.__mask = 0
-        self.__mask =  self.apply_to_mask(initial)
+        self.apply_to_mask(initial)
         
     def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0' or '1'
         self.__mask |= int(setting,2)
 
     def __iter__ (self):
         return self.__mask.__iter__()
-
+    def get(self):
+        return self.__mask
 class RelayController(object):
 
     # this class assumes the current pinout
@@ -25,27 +26,25 @@ class RelayController(object):
     @staticmethod
     def turnON(relay_number):
         relay = RelayController.RELAYS[relay_number]
-        GPIO.output(relay, GPIO.HIGH)
+        GPIO.output(relay, GPIO.LOW)
 
     @staticmethod
     def turnOFF(relay_number):
         relay = RelayController.RELAYS[relay_number]
-        GPIO.output(relay, GPIO.LOW)
+        GPIO.output(relay, GPIO.HIGH)
 
     @staticmethod
-    def apply_mask(self, mask: RelayMask):
-        for relay_number, bit in enumerate(f'{mask:08b}'):
-            self.turnON(relay_number) if int(bit) else self.turnOFF(relay_number)
-
+    def apply_mask(mask: RelayMask):
+        bitmask = mask.get()
+        bitmask = f'{bitmask:08b}'
+        for relay_number, bit in enumerate(bitmask):
+            RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)
+            #print(f'RELAY NUMBER: {relay_number} , bit : {bit}')
 if __name__ == '__main__':
 
-    for i in range(8):
-        #RelayController.turnON(i)
-        #time.sleep(1)
-        #RelayController.turnOFF(i)
-        RelayController.apply_mask(RelayMask('10000001'))
-        time.sleep(2)
-        RelayController.apply_mask(RelayMask('01111110'))
-        time.sleep(2)
-        RelayController.apply_mask(RelayMask('00000000'))
+    RelayController.apply_mask(RelayMask('10000001'))
+    time.sleep(2)
+    RelayController.apply_mask(RelayMask('01111110'))
+    time.sleep(2)
+    RelayController.apply_mask(RelayMask('00000000'))
 
