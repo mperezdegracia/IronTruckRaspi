@@ -13,16 +13,20 @@ class Alarm(object):
 
 
     def activate(self):
+        print(f'[ALARM] [ACTIVE] ---> {self.sensor}')
         self.is_active = True
 
     def deactivate(self):
+        print(f'[ALARM] [OFF] ---> {self.sensor}')
         self.is_active = False
 
     def is_stateValid(self):
         return self.sensor.state is not None
     
     def triggered(self):
-        return self.__state != self.__last_state
+        result =  self.__state != self.__last_state
+        if result : print(f'[ALARM] [TRIGGERED] --> {self.sensor}')
+        return result
         
     def get_state(self):
         return self.__state
@@ -36,7 +40,8 @@ class Alarm(object):
             alarmState = self.sensor.state <= self.settings.getTrigger()
 
         alarmState = alarmState ^ self.is_inverse
-
+        print(f'[ALARM] [STATE]] ---> {alarmState} last: {self.__last_state}')
+        
         self.__last_state = self.__state
         self.__state = alarmState
         

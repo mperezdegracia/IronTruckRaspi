@@ -135,6 +135,7 @@ class SensorController(object):
             self.alarm.detect()
 
             if(self.alarm.triggered):
+
                 #state changed 
                 # write something to database TODO
                 state = self.alarm.get_state()
