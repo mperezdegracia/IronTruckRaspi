@@ -7,7 +7,7 @@ from adafruit_blinka.microcontroller.bcm283x.pin import Pin
 
 
 class DHT_22(Sensor):
-
+    HYSTERESIS = 0.05 #  5% del trigger Value
     def __init__(self, pin, name):
         super(DHT_22, self).__init__(pin, name)
         self.device = adafruit_dht.DHT22(Pin(self.pin))

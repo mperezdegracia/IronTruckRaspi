@@ -104,6 +104,7 @@ class SensorController(object):
         self.victron = victron
         self.alarm = Alarm(self.sensor, self.settings)   
         self.victron.suscribeAll(settings)
+        self.relay_mask : RelayMask = None
 
     def has_alarm(self):
         return self.alarm.is_active
@@ -111,7 +112,9 @@ class SensorController(object):
     def create_alarm(self, inverse=False):
         self.alarm = Alarm(self.sensor, self.settings, inverse)
 
-
+    def set_mask(self, mask: RelayMask):
+        self.relay_mask = mask
+        return self
     def send_data(self):
         data = {
             'measurement': self.sensor.name,
@@ -129,14 +132,19 @@ class SensorController(object):
 
         self.database.client.write_points([data])
 
-        if self.has_alarm() and self.alarm.detect() :
-            # write something to database TODO
-            for index, value in enumerate(self.alarm.settings.getRelay()):
-                if(value == '1'):
-                    RelayController.turnON(index)
+        if self.has_alarm():
+            self.alarm.detect()
 
+            if(self.alarm.triggered):
+                #state changed 
+                # write something to database TODO
+                for index, value in enumerate(self.alarm.settings.getRelay()):
+                    if(value == '1'):
+                        RelayController.turnON(index) if self.alarm.get_state() else RelayController.turnOFF(index)
+                    
+                    # We don´t want different alarms overriding the relay state, turning on and off the relay
+                    # we should create a RELAY MASK, and then applying the mask to  
         return
-
 
 
     def __str__(self) -> str:
@@ -144,10 +152,12 @@ class SensorController(object):
 
 
 
+
 class SensorControllerSet:
 
     def __init__(self) -> None:
         self.controllers = []
+        self.relay_mask = RelayMask()
 
     def add(self,new_controller):
         for controller in self.controllers:
@@ -158,7 +168,7 @@ class SensorControllerSet:
                 print(f'[MAIN][FAILED] same setting ID for different controllers! {new_controller}')
                 return False
 
-        self.controllers.append(new_controller)
+        self.controllers.append(new_controller.set_mask(self.relay_mask))
         return True
 
 

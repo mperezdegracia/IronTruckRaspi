@@ -7,6 +7,7 @@ import random
 
 
 class Sensor(object):
+    HYSTERESIS = None
     def __init__(self, pin, name):
         self.pin = pin  # pin = id
         self.state = None
