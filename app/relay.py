@@ -10,17 +10,17 @@ class RelayController(object):
     # GPIO.setwarnings(False)
     RELAYS = [14, 27, 10, 9, 11, 0, 5, 6]  # [5,6,10,0,14,11,9,27]
     for pin in RELAYS:
-        GPIO.setup(pin, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(pin, GPIO.OUT, initial=GPIO.HIGH)
 
     @staticmethod
     def turnON(relayNumber):
         relay = RelayController.RELAYS[relayNumber]
-        GPIO.output(relay, GPIO.HIGH)
+        GPIO.output(relay, GPIO.LOW)
 
     @staticmethod
     def turnOFF(relayNumber):
         relay = RelayController.RELAYS[relayNumber]
-        GPIO.output(relay, GPIO.LOW)
+        GPIO.output(relay, GPIO.HIGH)
 
 if __name__ == '__main__':
 

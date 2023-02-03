@@ -121,7 +121,7 @@ class SensorController(object):
             fields[measurement] = value
 
         self.database.client.write_points([data])
-
+#TODO stop the alarm, manage relay
         if self.has_alarm() and self.alarm.detect() :
             # write something to database TODO
             for index, value in enumerate(self.alarm.settings.getRelay()):
