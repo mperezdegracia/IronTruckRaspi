@@ -133,19 +133,21 @@ class SensorController(object):
 
         if self.has_alarm():
 
-            if(self.alarm.detect()):
+            triggered = self.alarm.detect()
 
-                #state changed 
-                # write something to database TODO
-                state = self.alarm.get_state()
-                settings = self.alarm.settings.getRelay()
-                if(self.relay_mask):
-                    if(state):
-                        self.relay_mask.apply_to_mask(settings)  
-                else:
-                    # this would execute if the controller is not contained in network
-                    # only use if this sensor is working alone
-                    if(state):
+            #state changed 
+            # write something to database TODO
+            
+            state = self.alarm.get_state()
+            settings = self.alarm.settings.getRelay()
+            if(self.relay_mask):
+                if(state):
+                    self.relay_mask.apply_to_mask(settings)  
+            else:
+                # this would execute if the controller is not contained in network
+                # only use if this sensor is working alone
+                if triggered:
+                    if state:
                         RelayController.apply_setting(settings)    
                     else:
                         RelayController.allOFF()
