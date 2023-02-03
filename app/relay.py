@@ -10,6 +10,8 @@ class RelayMask:
         self.__mask |= int(setting,2)
     def invert(self):
         self.__mask ^= 0
+    def reset(self):
+        self.__mask = 0
     def __iter__ (self):
         return self.__mask.__iter__()
     def get(self):

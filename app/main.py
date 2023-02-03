@@ -137,7 +137,7 @@ class SensorController(object):
 
             #state changed 
             # write something to database TODO
-            
+
             state = self.alarm.get_state()
             settings = self.alarm.settings.getRelay()
             if(self.relay_mask):
@@ -245,6 +245,7 @@ def sensors_read(network:SensorControllerSet):
     for controller in network:
         controller.send_data()
     RelayController.apply_mask(network.relay_mask)
+    network.relay_mask.reset()
 
 def keep_alive_count (count):
     count += 1
