@@ -249,6 +249,7 @@ READING_FREC = 5
 
 
 network = SensorControllerSet()
+timer = datetime.datetime.now()
 
 def setup():
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
@@ -260,12 +261,12 @@ def sensors_read():
     network.relay_mask.reset()
 
 def keep_alive_count ():
+    global timer
     passed = datetime.datetime.now() - timer
     if passed.total_seconds() >= KEEP_ALIVE:
         mqtt.keep_alive()
         timer = datetime.datetime.now() 
 
-timer = datetime.datetime.now()
 
 def main():
     setup()
