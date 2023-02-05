@@ -7,7 +7,6 @@ class RelayMask:
         self.apply_to_mask(initial)
         
     def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0' or '1'
-        print(f'[RELAY] APPLYING MASK ---> b"{setting}"')
         self.__mask |= int(setting,2)
     
     def invert(self):
@@ -41,15 +40,19 @@ class RelayController(object):
         GPIO.output(relay, GPIO.HIGH)
     @staticmethod
     def allOFF():
+        print(f'[RELAY] ---> TURNING ALL RELAYS ON')
         RelayController.apply_setting('00000000')
 
     @staticmethod
     def allON():
+        print(f'[RELAY] ---> TURNING ALL RELAYS ON')
         RelayController.apply_setting('11111111')
     
     @staticmethod
     def apply_mask(mask: RelayMask):
         bitmask = mask.get()
+        print(f'[RELAY] ---> RELAYS to {bitmask} CONFIGURATION')
+
         RelayController.apply_setting(bitmask)
 
     def apply_setting(setting: str):
