@@ -12,6 +12,7 @@ import time
 from settings import *
 import re
 import json
+from datetime import date
 
 #**********************  CONTROLLERS *******************************
 class MqttController(object):
@@ -50,8 +51,11 @@ class MqttController(object):
 
         res, sensor_id= self.pattern(message.topic)
         global network
+        try:
+            new_value = json.loads(message.payload)['value']
+        except:
+            print(f'parsing to JSON FAILED: {message.payload}')
 
-        new_value = json.loads(message.payload)['value']
         topic = message.topic[1:]
 
 
@@ -234,7 +238,7 @@ CLIENT_NAME = "IronTruck"
 mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 KEEP_ALIVE = 30
 # ********************************
-READING_FREC = 2
+READING_FREC = 5
 
 # We now have running MQTT and InfluxDB database connection
 
@@ -252,18 +256,21 @@ def sensors_read():
     RelayController.apply_mask(network.relay_mask)
     network.relay_mask.reset()
 
-def keep_alive_count (count):
-    count += 1
-    if(count * READING_FREC == KEEP_ALIVE):
+def keep_alive_count ():
+    passed = datetime.datetime.now() - timer
+    if passed.total_seconds() >= KEEP_ALIVE:
         mqtt.keep_alive()
-        count = 0
+        timer = datetime.datetime.now() 
+
+timer = datetime.datetime.now()
+
 def main():
     count = 0
     setup()
     while True:
-
+        
         sensors_read()
-        keep_alive_count(count)
+        keep_alive_count()
         time.sleep(READING_FREC)
         
         
