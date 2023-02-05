@@ -51,10 +51,12 @@ class MqttController(object):
 
         res, sensor_id= self.pattern(message.topic)
         global network
+        
         try:
             new_value = json.loads(message.payload)['value']
         except:
             print(f'parsing to JSON FAILED: {message.payload}')
+            return
 
         topic = message.topic[1:]
 
@@ -235,7 +237,7 @@ influx.connect_db(DATABASE_NAME)
 
 # *********** MQTT ***************
 
-BROKER = "192.168.1.101"  # IP Victron CCGX PORT: 1883 (default)
+BROKER = "192.168.1.104"  # IP Victron CCGX PORT: 1883 (default)
 CLIENT_NAME = "IronTruck"
 mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 KEEP_ALIVE = 30
