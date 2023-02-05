@@ -7,6 +7,7 @@ class RelayMask:
         self.apply_to_mask(initial)
         
     def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0' or '1'
+        print(f'[RELAY] APPLYING MASK ---> b"{setting}"')
         self.__mask |= int(setting,2)
     
     def invert(self):

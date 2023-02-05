@@ -131,8 +131,10 @@ class SensorController(object):
         if reading is None:
             if(self.relay_mask):
                 if(self.alarm.get_state()): # checkea el estado previo y mantiene la configuracion de relays correspondiente
+                    print("READING IS NONE, APPLYING MASK ANYWAY")
                     self.relay_mask.apply_to_mask(self.alarm.settings.getRelay())  
             return  # failed reading
+
         for measurement, value in reading.items():
             fields[measurement] = value
 
@@ -245,11 +247,10 @@ READING_FREC = 5
 
 
 network = SensorControllerSet()
+
 def setup():
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
     network.add(SensorController(MQ2(pin=0, name="GAS Cocina"),SensorAlarmSettings(id=1), influx, mqtt))
-    #TODO no deberia hacer falta el _update
-    #TODO arreglar el tema del sensor_id
 def sensors_read():
     for controller in network:
         controller.send_data()
@@ -265,7 +266,6 @@ def keep_alive_count ():
 timer = datetime.datetime.now()
 
 def main():
-    count = 0
     setup()
     while True:
         
