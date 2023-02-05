@@ -26,6 +26,8 @@ class RelayController(object):
     GPIO.setmode(GPIO.BCM)  # GPIO Numbers instead of board numbers
     GPIO.setwarnings(False)
     RELAYS = [14, 27, 10, 9, 11, 0, 5, 6]  # [5,6,10,0,14,11,9,27]
+
+    CURRENT_SETTING = '00000000'
     for pin in RELAYS:
         GPIO.setup(pin, GPIO.OUT, initial=GPIO.HIGH)
 
@@ -54,12 +56,13 @@ class RelayController(object):
         print(f'[RELAY] ---> RELAYS to {bitmask} CONFIGURATION')
 
         RelayController.apply_setting(bitmask)
-
+    
+    @staticmethod
     def apply_setting(setting: str):
-        for relay_number, bit in enumerate(setting):
-            RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)
-            #print(f'RELAY NUMBER: {relay_number} , bit : {bit}')
-            
+        if (setting != RelayController.CURRENT_SETTING):
+            for relay_number, bit in enumerate(setting):
+                RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)
+            RelayController.CURRENT_SETTING = setting
 if __name__ == '__main__':
 
     RelayController.apply_mask(RelayMask('10000001'))
