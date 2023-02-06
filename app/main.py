@@ -120,28 +120,9 @@ class SensorController(object):
     def set_mask(self, mask: RelayMask):
         self.relay_mask = mask
         return self
-    def send_data(self):
-        data = {
-            'measurement': self.sensor.name,
-            'time': datetime.datetime.now(),
-            'fields': {
-            },
-        }
-        fields = data['fields']
-        reading = self.sensor._read()
 
-        if reading is None:
-            if(self.relay_mask):
-                if(self.alarm.get_state()): # checkea el estado previo y mantiene la configuracion de relays correspondiente
-                    print("READING IS NONE, APPLYING MASK ANYWAY")
-                    self.relay_mask.apply_to_mask(self.alarm.settings.getRelay())  
-            return  # failed reading
 
-        for measurement, value in reading.items():
-            fields[measurement] = value
-
-        self.database.client.write_points([data])
-
+    def alarm_handling(self):
         if self.has_alarm():
 
             triggered = self.alarm.detect()
@@ -163,12 +144,29 @@ class SensorController(object):
                         RelayController.apply_setting(settings)    
                     else:
                         RelayController.allOFF()
+    def send_data(self):
+        data = {
+            'measurement': self.sensor.name,
+            'time': datetime.datetime.now(),
+            'fields': {
+            },
+        }
+        fields = data['fields']
+        reading = self.sensor._read()
 
-                    
-                    
-                    
-                    # We don´t want different alarms overriding the relay state, turning on and off the relay
-                    # we should create a RELAY MASK, and then applying the mask:   DONE bruh
+        if reading is None:
+            if(self.relay_mask and self.alarm.get_state() and self.has_alarm()):
+                print("READING IS NONE, APPLYING MASK ANYWAY")
+                self.relay_mask.apply_to_mask(self.alarm.settings.getRelay())  
+            return  # failed reading
+            
+
+        for measurement, value in reading.items():
+            fields[measurement] = value
+
+        self.database.client.write_points([data])
+        self.alarm_handling()
+     
         return
 
 

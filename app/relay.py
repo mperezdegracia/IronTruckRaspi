@@ -57,8 +57,8 @@ class RelayController(object):
     
     @staticmethod
     def apply_setting(setting: str):
-        if (setting != RelayController.CURRENT_SETTING):
-            print(f'[RELAY] ---> RELAYS to {bitmask} CONFIGURATION')
+        if (setting == RelayController.CURRENT_SETTING):
+            print(f'[RELAY] ---> RELAYS to {setting} CONFIGURATION')
             for relay_number, bit in enumerate(setting):
                 RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)
             RelayController.CURRENT_SETTING = setting
