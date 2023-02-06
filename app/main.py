@@ -34,7 +34,8 @@ class MqttController(object):
             return (self.ERROR)
         if 'relays' in text:
             relay_number = int(text.replace(self.PATH_RELAY, '')[0])
-            if bool(re.compile (r'N/508cb1cb59e8/relays/0/Relay/\d/State($| )').search(text)): return (self.RELAY_STATE, relay_number)
+            print(f'TEXT {text} RELAY NUMBER {relay_number}')
+            if bool(re.compile (r'Relay/\d/State($| )').search(text)): return (self.RELAY_STATE, relay_number)
 
     def __init__(self, broker, port=1883, clientName="test") -> None:
         self.mqtt = paho.Client(clientName)  # create self.mqtt object
@@ -50,7 +51,7 @@ class MqttController(object):
         print(f'[MQTT] -> PUBLISH')
 
     def updateRelayStates(self, bitmask: RelayMask):
-        for relay_number, bit in enumerate(bitmask):
+        for relay_number, bit in enumerate(bitmask, start=1):
             self.mqtt.publish(f'W//508cb1cb59e8/relays/0/Relay/{relay_number}/State', json.dumps({'value': bit}))
             print(f'[MQTT] PUBLISHING ---> RELAY {relay_number} : {bit}')
 
