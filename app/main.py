@@ -46,13 +46,14 @@ class MqttController(object):
         self.mqtt.on_subscribe = self.on_suscribe
         self.mqtt.connect(broker, port, keepalive=60)
         self.mqtt.loop_start()
+        self.suscribeList([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(5)])
 
     def on_publish(self, mqtt, userdata, mid):
         print(f'[MQTT] -> PUBLISH')
 
     def updateRelayStates(self, bitmask: RelayMask):
         for relay_number, bit in enumerate(bitmask, start=1):
-            self.mqtt.publish(f'W//508cb1cb59e8/relays/0/Relay/{relay_number}/State', json.dumps({'value': bit}))
+            self.mqtt.publish(f'W/508cb1cb59e8/relays/0/Relay/{relay_number}/State', json.dumps({'value': bit}))
             print(f'[MQTT] PUBLISHING ---> RELAY {relay_number} : {bit}')
 
         
@@ -107,6 +108,13 @@ class MqttController(object):
             print(f'SUBSCRIBING TO N{topic}')
             self.mqtt.publish(f'R{topic}')
             self.mqtt.subscribe(f'N{topic}')
+    def suscribeList(self, list):
+        if list:
+            for topic in list:
+                print(f'SUBSCRIBING TO N{topic}')
+                self.mqtt.publish(f'R{topic}')
+                self.mqtt.subscribe(f'N{topic}')
+
 
     def keep_alive(self):
         self.mqtt.publish("R/508cb1cb59e8/keepalive")

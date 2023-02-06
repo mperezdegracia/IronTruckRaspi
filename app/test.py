@@ -1,0 +1,1 @@
+print([f'N/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(5)])
