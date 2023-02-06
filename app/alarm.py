@@ -41,7 +41,7 @@ class Alarm(object):
             alarmState = self.sensor.state >= self.settings.getTrigger()
 
         alarmState = alarmState ^ self.is_inverse
-        print(f'[ALARM] [STATE]] ---> {alarmState} last: {self.__state}')
+        #print(f'[ALARM] [STATE]] ---> {alarmState} last: {self.__state}')
         
         self.__last_state = self.__state
         self.__state = alarmState

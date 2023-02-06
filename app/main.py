@@ -19,18 +19,22 @@ class MqttController(object):
     ALARM = 0
     RELAY = 1
     TRIGGER = 2
+    RELAY_STATE = 3
     ERROR = -1
-    prefix = 'N/508cb1cb59e8/settings/0/Settings/RpiSensors/'
-
-
+    PATH_SENSORS = 'N/508cb1cb59e8/settings/0/Settings/RpiSensors/'
+    PATH_RELAY = 'N/508cb1cb59e8/relays/0/Relay/'
 
     def pattern(self, text):
-        sensor_id = int(text.replace(self.prefix, '')[0])
-        
-        if bool(re.compile (r'Settings/RpiSensors/\d/Alarm($| )').search(text)): return (self.ALARM, sensor_id)
-        if bool(re.compile (r'Settings/RpiSensors/\d/AlarmSetting($| )').search(text)): return (self.RELAY, sensor_id)
-        if bool(re.compile (r'Settings/RpiSensors/\d/AlarmTrigger($| )').search(text)): return (self.TRIGGER, sensor_id)
-        return (self.ERROR)
+        if('settings' in text):
+            sensor_id = int(text.replace(self.PATH_SENSORS, '')[0])
+            
+            if bool(re.compile (r'Settings/RpiSensors/\d/Alarm($| )').search(text)): return (self.ALARM, sensor_id)
+            if bool(re.compile (r'Settings/RpiSensors/\d/AlarmSetting($| )').search(text)): return (self.RELAY, sensor_id)
+            if bool(re.compile (r'Settings/RpiSensors/\d/AlarmTrigger($| )').search(text)): return (self.TRIGGER, sensor_id)
+            return (self.ERROR)
+        if 'relays' in text:
+            relay_number = int(text.replace(self.PATH_RELAY, '')[0])
+            if bool(re.compile (r'N/508cb1cb59e8/relays/0/Relay/\d/State($| )').search(text)): return (self.RELAY_STATE, relay_number)
 
     def __init__(self, broker, port=1883, clientName="test") -> None:
         self.mqtt = paho.Client(clientName)  # create self.mqtt object
@@ -45,6 +49,13 @@ class MqttController(object):
     def on_publish(self, mqtt, userdata, mid):
         print(f'[MQTT] -> PUBLISH')
 
+    def updateRelayStates(self, bitmask: RelayMask):
+        for relay_number, bit in enumerate(bitmask):
+            self.mqtt.publish(f'W/{self.PATH_RELAY[2:]}{relay_number}/State', json.dumps({'value': bit}))
+
+        
+
+    
     
         
     def on_message(self, mqtt, userdate, message):
@@ -212,6 +223,15 @@ class SensorControllerSet:
         string = f'{string[:-2] }]'
         return f'[MAIN] CONTROLLER SET:  HEAD --->  {string}'
 
+    def sensors_read(self):
+        for controller in self:
+            controller.send_data()
+        if RelayController.apply_mask(self.relay_mask):
+            for relay_number, bit in enumerate(self.relay_mask): 
+                mqtt.updateRelayStates(self.relay_mask)
+
+        self.relay_mask.reset()
+
 
 #*********************************
 
@@ -252,11 +272,6 @@ timer = datetime.datetime.now()
 def setup():
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
     network.add(SensorController(MQ2(pin=0, name="GAS Cocina"),SensorAlarmSettings(id=1), influx, mqtt))
-def sensors_read():
-    for controller in network:
-        controller.send_data()
-    RelayController.apply_mask(network.relay_mask)
-    network.relay_mask.reset()
 
 def keep_alive_count ():
     global timer
@@ -270,7 +285,7 @@ def main():
     setup()
     while True:
         
-        sensors_read()
+        network.sensors_read()
         keep_alive_count()
         time.sleep(READING_FREC)
         

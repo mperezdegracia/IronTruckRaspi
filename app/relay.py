@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import time
-
+from main import MqttController
 class RelayMask:
     def __init__(self,initial = '00000000') -> None:
         self.__mask = 0
@@ -16,7 +16,7 @@ class RelayMask:
         self.__mask = 0
     
     def __iter__ (self):
-        return self.__mask.__iter__()
+        return f'{self.__mask:08b}'.__iter__()
     def get(self):
         return f'{self.__mask:08b}'
 class RelayController(object):
@@ -43,7 +43,7 @@ class RelayController(object):
     @staticmethod
     def allOFF():
         print(f'[RELAY] ---> TURNING ALL RELAYS ON')
-        RelayController.apply_setting('00000000')
+        RelayController.apply_setting('00000000') 
 
     @staticmethod
     def allON():
@@ -51,17 +51,20 @@ class RelayController(object):
         RelayController.apply_setting('11111111')
     
     @staticmethod
-    def apply_mask(mask: RelayMask):
+    def apply_mask(mask: RelayMask) :
         bitmask = mask.get()
-        RelayController.apply_setting(bitmask)
+        return RelayController.apply_setting(bitmask)
     
     @staticmethod
     def apply_setting(setting: str):
-        if (setting == RelayController.CURRENT_SETTING):
+        if (setting != RelayController.CURRENT_SETTING):
             print(f'[RELAY] ---> RELAYS to {setting} CONFIGURATION')
+
             for relay_number, bit in enumerate(setting):
                 RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)
             RelayController.CURRENT_SETTING = setting
+            return True
+        return False
 if __name__ == '__main__':
 
     RelayController.apply_mask(RelayMask('10000001'))
