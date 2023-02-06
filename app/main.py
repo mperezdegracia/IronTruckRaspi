@@ -51,7 +51,8 @@ class MqttController(object):
 
     def updateRelayStates(self, bitmask: RelayMask):
         for relay_number, bit in enumerate(bitmask):
-            self.mqtt.publish(f'W/{self.PATH_RELAY[2:]}{relay_number}/State', json.dumps({'value': bit}))
+            self.mqtt.publish(f'W//508cb1cb59e8/relays/0/Relay/{relay_number}/State', json.dumps({'value': bit}))
+            print(f'[MQTT] PUBLISHING ---> RELAY {relay_number} : {bit}')
 
         
 
@@ -79,10 +80,11 @@ class MqttController(object):
         if res == self.ALARM:
             pass
             controller.alarm.activate() if new_value else controller.alarm.deactivate()
+        if res == self.RELAY_STATE:
+            pass
+            print(f'[MQTT] -> RELAY STATE CHANGED ---> RELAY {sensor_id} = {new_value}')
         
-        
-        print(
-        f'[MQTT] -> RECEIVED ---> {topic} = {new_value}')
+        print(f'[MQTT] -> RECEIVED ---> {topic} = {new_value}')
 
         controller.settings.update({topic: new_value})
 

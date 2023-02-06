@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-from main import MqttController
 class RelayMask:
     def __init__(self,initial = '00000000') -> None:
         self.__mask = 0
