@@ -77,10 +77,11 @@ class MqttController(object):
         if res == self.RELAY_STATE:
             print(f'[MQTT] -> RELAY STATE CHANGED ---> RELAY {id} = {new_value}')
             RelayController.turnON(id-1) if new_value else RelayController.turnOFF(id-1)
+            return
             
-                
+        controller = network.get(id)        
         if res == self.ALARM:
-            controller = network.get(id)
+            
             if not controller:
             #sensor not available 
                   return 
