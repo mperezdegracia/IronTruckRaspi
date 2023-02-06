@@ -46,7 +46,7 @@ class MqttController(object):
         self.mqtt.on_subscribe = self.on_suscribe
         self.mqtt.connect(broker, port, keepalive=60)
         self.mqtt.loop_start()
-        self.suscribeList([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(8)])
+        self.suscribeList([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(8,start=1)])
 
     def on_publish(self, mqtt, userdata, mid):
         print(f'[MQTT] -> PUBLISH')
