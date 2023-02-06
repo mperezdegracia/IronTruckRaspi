@@ -238,8 +238,7 @@ class SensorControllerSet:
         for controller in self:
             controller.send_data()
         if RelayController.apply_mask(self.relay_mask):
-            for relay_number, bit in enumerate(self.relay_mask): 
-                mqtt.updateRelayStates(self.relay_mask)
+            mqtt.updateRelayStates(self.relay_mask)
 
         self.relay_mask.reset()
 
