@@ -63,7 +63,7 @@ class MqttController(object):
         
     def on_message(self, mqtt, userdate, message):
 
-        res, sensor_id= self.pattern(message.topic)
+        res, id= self.pattern(message.topic)
         global network
         
         try:
@@ -74,18 +74,18 @@ class MqttController(object):
 
         topic = message.topic[1:]
 
-
-        controller = network.get(sensor_id)
-        if not controller:
-            #sensor not available 
-            return 
-        if res == self.ALARM:
-            pass
-            controller.alarm.activate() if new_value else controller.alarm.deactivate()
         if res == self.RELAY_STATE:
-            pass
-            print(f'[MQTT] -> RELAY STATE CHANGED ---> RELAY {sensor_id} = {new_value}')
-        
+            print(f'[MQTT] -> RELAY STATE CHANGED ---> RELAY {id} = {new_value}')
+            RelayController.turnON(id-1) if new_value else RelayController.turnOFF(id-1)
+            
+                
+        if res == self.ALARM:
+            controller = network.get(id)
+            if not controller:
+            #sensor not available 
+                  return 
+            controller.alarm.activate() if new_value else controller.alarm.deactivate()
+     
         print(f'[MQTT] -> RECEIVED ---> {topic} = {new_value}')
 
         controller.settings.update({topic: new_value})
