@@ -135,6 +135,8 @@ class SensorController(object):
         self.alarm = Alarm(self.sensor, self.settings)   
         self.victron.suscribeAll(settings)
         self.relay_mask : RelayMask = None
+    def log(self, message):
+        logging.debug(f'[SENSOR CTRL]  {message}')
 
     def has_alarm(self):
         return self.alarm.is_active

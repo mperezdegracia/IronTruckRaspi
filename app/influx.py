@@ -18,7 +18,7 @@ class Influx(object):
     def connect_db(self, dbname):
         '''connect to the database, and create it if it does not exist'''
 
-        log(f'connecting to database: {self.host}:{self.port}')
+        self.log(f'connecting to database: {self.host}:{self.port}')
         self.wait_for_server()
 
         create = False
@@ -26,10 +26,10 @@ class Influx(object):
 
         if not self.db_exists():
             create = True
-            log(f'creating database {self.dbname}')
+            self.log(f'creating database {self.dbname}')
             self.client.create_database(self.dbname)
         else:
-            log(f'database {self.dbname} already exists')
+            self.log(f'database {self.dbname} already exists')
 
         self.client.switch_database(self.dbname)
         return create  # returns whether it was created or already existed
@@ -43,7 +43,7 @@ class Influx(object):
                 requests.get(url)
                 return
             except requests.exceptions.ConnectionError:
-                log(f'waiting for {url}')
+                self.log(f'waiting for {url}')
                 time.sleep(waiting_time)
                 waiting_time *= 2
                 pass
