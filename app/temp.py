@@ -4,7 +4,7 @@ import time
 import board
 import adafruit_dht
 from adafruit_blinka.microcontroller.bcm283x.pin import Pin
-
+import logging
 
 class DHT_22(Sensor):
     HYSTERESIS = 0.05 #  5% del trigger Value
@@ -19,7 +19,7 @@ class DHT_22(Sensor):
             humidity = self.device.humidity
             self.state = temperature
 
-            print(
+            logging.info(
                 f'{self} --> READING: temperature: {round(temperature,2)} , humidity: {round(humidity,2)}')
             # successful
             return {'temperature': temperature, 'humidity': humidity}

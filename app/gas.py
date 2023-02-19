@@ -5,7 +5,7 @@ import board
 import busio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
-
+import logging
 
 class MQ2(Sensor):
     HYSTERESIS = 0.05 # 10% del trigger value
@@ -19,7 +19,7 @@ class MQ2(Sensor):
             voltage = self.device.voltage
             PPM = round(26.572 * math.exp(1.2894*voltage), 2)
             self.state = PPM
-            print(
+            logging.info(
                 f'{self} --> READING: gas: {PPM}')
             return {'gas': PPM}
 
