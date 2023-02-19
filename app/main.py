@@ -13,7 +13,7 @@ from settings import *
 import re
 import json
 from datetime import date
-import logging
+import custom_logger
 #**********************  CONTROLLERS *******************************
 class MqttController(object):
     ALARM = 0
@@ -253,7 +253,6 @@ class SensorControllerSet:
 #            --------
 #***********|  MAIN  |************
 #            --------
-logging.basicConfig(filename='main.log', encoding='utf-8', level=logging.DEBUG, filemode= 'w', format = '[%(levelname)s] %(asctime)s:  %(message)s')
 
 
 # *********** INFLUX *************
