@@ -1,0 +1,22 @@
+INFO:root:dbus-relaypi.py is starting up
+INFO:root:Loglevel set to INFO
+Traceback (most recent call last):
+  File "dbus-relaypi.py", line 54, in <module>
+    dbusservice = VeDbusService(args.name)
+  File "./ext/velib_python/vedbus.py", line 75, in __init__
+    self._dbusname = dbus.service.BusName(servicename, self._dbusconn, do_not_queue=True)
+  File "/usr/lib/python2.7/site-packages/dbus/service.py", line 142, in __new__
+    raise NameExistsException(name)
+dbus.exceptions.NameExistsException: Bus name already exists: com.victronenergy.relays
+Exception AttributeError: "'VeDbusService' object has no attribute '_dbusname'" in <bound method VeDbusService.__del__ of <vedbus.VeDbusService object at 0xb699ae70>> ignored
+INFO:root:dbus-relaypi.py is starting up
+INFO:root:Loglevel set to INFO
+Traceback (most recent call last):
+  File "dbus-relaypi.py", line 54, in <module>
+    dbusservice = VeDbusService(args.name)
+  File "./ext/velib_python/vedbus.py", line 75, in __init__
+    self._dbusname = dbus.service.BusName(servicename, self._dbusconn, do_not_queue=True)
+  File "/usr/lib/python2.7/site-packages/dbus/service.py", line 142, in __new__
+    raise NameExistsException(name)
+dbus.exceptions.NameExistsException: Bus name already exists: com.victronenergy.relays
+Exception AttributeError: "'VeDbusService' object has no attribute '_dbusname'" in <bound method VeDbusService.__del__ of <vedbus.VeDbusService object at 0xb698de70>> ignored

@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import logging
 class RelayMask:
     def __init__(self,initial = '00000000') -> None:
         self.__mask = 0
@@ -41,12 +42,12 @@ class RelayController(object):
         GPIO.output(relay, GPIO.HIGH)
     @staticmethod
     def allOFF():
-        print(f'[RELAY] ---> TURNING ALL RELAYS ON')
+        logging.debug(f'[RELAY] TURNING ALL RELAYS ON')
         RelayController.apply_setting('00000000') 
 
     @staticmethod
     def allON():
-        print(f'[RELAY] ---> TURNING ALL RELAYS ON')
+        logging.debug(f'[RELAY] ---> TURNING ALL RELAYS ON')
         RelayController.apply_setting('11111111')
     
     @staticmethod
@@ -57,7 +58,7 @@ class RelayController(object):
     @staticmethod
     def apply_setting(setting: str):
         if (setting != RelayController.CURRENT_SETTING):
-            print(f'[RELAY] ---> RELAYS to {setting} CONFIGURATION')
+            logging.debug(f'[RELAY] ---> RELAYS to {setting} CONFIGURATION')
 
             for relay_number, bit in enumerate(setting):
                 RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)

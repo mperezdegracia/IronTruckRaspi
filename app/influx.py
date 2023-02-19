@@ -4,9 +4,11 @@ import datetime
 import time
 import json
 import random
-
+import logging
 
 class Influx(object):
+    def log(self, message):
+        logging.debug(f'[INFLUX]  {message}')
 
     def __init__(self, host, port) -> None:
         self.host = host
@@ -16,7 +18,7 @@ class Influx(object):
     def connect_db(self, dbname):
         '''connect to the database, and create it if it does not exist'''
 
-        print(f'[INFLUX] ---> connecting to database: {self.host}:{self.port}')
+        log(f'connecting to database: {self.host}:{self.port}')
         self.wait_for_server()
 
         create = False
@@ -24,10 +26,10 @@ class Influx(object):
 
         if not self.db_exists():
             create = True
-            print(f'[INFLUX] ---> creating database {self.dbname}')
+            log(f'creating database {self.dbname}')
             self.client.create_database(self.dbname)
         else:
-            print(f'[INFLUX] ---> database {self.dbname} already exists')
+            log(f'database {self.dbname} already exists')
 
         self.client.switch_database(self.dbname)
         return create  # returns whether it was created or already existed
@@ -41,7 +43,7 @@ class Influx(object):
                 requests.get(url)
                 return
             except requests.exceptions.ConnectionError:
-                print(f'waiting for {url}')
+                log(f'waiting for {url}')
                 time.sleep(waiting_time)
                 waiting_time *= 2
                 pass
@@ -59,6 +61,7 @@ class DBConnectionError(Exception):
     def __init__(self, session: Influx) -> None:
         super().__init__(
             f'[DB] --> [ERROR] cant connect to database http://{session.host}:{session.port}')
+        
 
 
 '''

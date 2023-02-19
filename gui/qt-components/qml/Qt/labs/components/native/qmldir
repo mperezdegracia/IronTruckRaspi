@@ -1,0 +1,16 @@
+CheckBox 1.0 CheckBox.qml
+Page 1.0 Page.qml
+PageStack 1.0 PageStack.qml
+PageStackWindow 1.0 PageStackWindow.qml
+PageStackWindowStyle 1.0 PageStackWindowStyle.qml
+StatusBar 1.0 StatusBar.qml
+Slider 1.0 Slider.qml
+SliderStyle 1.0 SliderStyle.qml
+SliderTemplate 1.0 SliderTemplate.qml
+Switch 1.0 Switch.qml
+SwitchStyle 1.0 SwitchStyle.qml
+ToolBarLayout 1.0 ToolBarLayout.qml
+ToolButton 1.0 ToolButton.qml
+ToolIcon 1.0 ToolIcon.qml
+Window 1.0 Window.qml
+SpinBox 1.0 SpinBox.qml

@@ -13,7 +13,7 @@ from settings import *
 import re
 import json
 from datetime import date
-
+import logging
 #**********************  CONTROLLERS *******************************
 class MqttController(object):
     ALARM = 0
@@ -24,6 +24,10 @@ class MqttController(object):
     PATH_SENSORS = 'N/508cb1cb59e8/settings/0/Settings/RpiSensors/'
     PATH_RELAY = 'N/508cb1cb59e8/relays/0/Relay/'
 
+    def log(self, message):
+        logging.debug(f'[MQTT]  {message}')
+
+    
     def pattern(self, text):
         if('settings' in text):
             sensor_id = int(text.replace(self.PATH_SENSORS, '')[0])
@@ -34,7 +38,6 @@ class MqttController(object):
             return (self.ERROR)
         if 'relays' in text:
             relay_number = int(text.replace(self.PATH_RELAY, '')[0])
-            print(f'TEXT {text} RELAY NUMBER {relay_number}')
             if bool(re.compile (r'Relay/\d/State($| )').search(text)): return (self.RELAY_STATE, relay_number)
 
     def __init__(self, broker, port=1883, clientName="test") -> None:
@@ -46,15 +49,14 @@ class MqttController(object):
         self.mqtt.on_subscribe = self.on_suscribe
         self.mqtt.connect(broker, port, keepalive=60)
         self.mqtt.loop_start()
-        self.suscribeList([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(1,8)])
+        self.suscribeList([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(1,9)])
 
     def on_publish(self, mqtt, userdata, mid):
-        print(f'[MQTT] -> PUBLISH')
+        self.log('PUBLISH')
 
     def updateRelayStates(self, bitmask: RelayMask):
         for relay_number, bit in enumerate(bitmask, start=1):
             self.mqtt.publish(f'W/508cb1cb59e8/relays/0/Relay/{relay_number}/State', json.dumps({'value': bit}))
-            print(f'[MQTT] PUBLISHING ---> RELAY {relay_number} : {bit}')
 
         
 
@@ -69,13 +71,12 @@ class MqttController(object):
         try:
             new_value = json.loads(message.payload)['value']
         except:
-            print(f'parsing to JSON FAILED: {message.payload}')
             return
 
         topic = message.topic[1:]
 
         if res == self.RELAY_STATE:
-            print(f'[MQTT] -> RELAY STATE CHANGED ---> RELAY {id} = {new_value}')
+            self.log(f'RELAY STATE CHANGED ---> RELAY {id} = {new_value}')
             RelayController.turnON(id-1) if new_value else RelayController.turnOFF(id-1)
             return
             
@@ -87,32 +88,33 @@ class MqttController(object):
                   return 
             controller.alarm.activate() if new_value else controller.alarm.deactivate()
      
-        print(f'[MQTT] -> RECEIVED ---> {topic} = {new_value}')
+        self.log(f'[MQTT] -> RECEIVED ---> {topic} = {new_value}')
 
         controller.settings.update({topic: new_value})
 
     def on_connect(self, client, userdata, flags, rc):
-        print(
-            f'[MQTT] -> SUCCESFULLY CONNECTED TO {client._client_id.decode("utf-8") }')
+        self.log(
+            f' SUCCESFULLY CONNECTED TO {client._client_id.decode("utf-8") }')
 
     def on_connect_fail(self, client, userdate):
-        print(
-            f'[MQTT] -> FAILED TO CONNECT ---> {client._client_id.decode("utf-8")}')
+        self.log(
+            f' FAILED TO CONNECT ---> {client._client_id.decode("utf-8")}')
 
     def on_suscribe(self, mqtt, userdata, mid, quos):
-        print(f'[MQTT] -> SUSCRIBED')
+        self.log(f' SUSCRIBED')
 
     def suscribeAll(self, obj: Settings):
         if not obj: 
             raise EmptySettingsException(obj)
         for topic in obj.settings:
-            print(f'SUBSCRIBING TO N{topic}')
+            self.log(f'SUBSCRIBING TO N{topic}')
             self.mqtt.publish(f'R{topic}')
             self.mqtt.subscribe(f'N{topic}')
+
     def suscribeList(self, list):
         if list:
             for topic in list:
-                print(f'SUBSCRIBING TO N{topic}')
+                self.log(f'SUBSCRIBING TO N{topic}')
                 self.mqtt.publish(f'R{topic}')
                 self.mqtt.subscribe(f'N{topic}')
 
@@ -161,7 +163,6 @@ class SensorController(object):
             else:
                 # this would execute if the controller is not contained in network
                 # only use if this sensor is working alone
-                print("*************************THIS SHOULD NOT BE EXECUTED***********************")
                 if triggered:
                     if state:
                         RelayController.apply_setting(settings)    
@@ -179,7 +180,7 @@ class SensorController(object):
 
         if reading is None:
             if(self.relay_mask and self.alarm.get_state() and self.has_alarm()):
-                print("READING IS NONE, APPLYING MASK ANYWAY")
+                self.log("READING IS NONE, APPLYING MASK ANYWAY")
                 self.relay_mask.apply_to_mask(self.alarm.settings.getRelay())  
             return  # failed reading
             
@@ -200,18 +201,20 @@ class SensorController(object):
 
 
 class SensorControllerSet:
-
+    
     def __init__(self) -> None:
         self.controllers = []
         self.relay_mask = RelayMask()
-    
+    def log(self, message):
+        logging.debug(f'[SENSOR CRTL]  {message}')
+
     def add(self,new_controller):
         for controller in self.controllers:
             if(controller.sensor == new_controller.sensor):
-                print(f'[MAIN][FAILED] trying to add a controller that already exists! {new_controller}')
+                self.log(f'trying to add a controller that already exists! {new_controller}')
                 return False
             if(controller.settings.id == new_controller.settings.id):
-                print(f'[MAIN][FAILED] same setting ID for different controllers! {new_controller}')
+                self.log(f'same setting ID for different controllers! {new_controller}')
                 return False
 
         self.controllers.append(new_controller.set_mask(self.relay_mask))
@@ -222,7 +225,7 @@ class SensorControllerSet:
         for i, controller in enumerate(self.controllers):
             if(controller.settings.id == setting_id):
                 return self.controllers[i]
-        print(f'[MAIN][FAILED] trying to get controller -> Sensor Pin: {setting_id}')
+        self.log(f'trying to get controller -> Sensor Pin: {setting_id}')
         return False
 
     def __iter__(self):
@@ -233,7 +236,7 @@ class SensorControllerSet:
         for controller in self:
             string += f'{str(controller)}, '
         string = f'{string[:-2] }]'
-        return f'[MAIN] CONTROLLER SET:  HEAD --->  {string}'
+        return f'CONTROLLER SET:  HEAD --->  {string}'
 
     def sensors_read(self):
         for controller in self:
@@ -250,7 +253,7 @@ class SensorControllerSet:
 #            --------
 #***********|  MAIN  |************
 #            --------
-
+logging.basicConfig(filename='main.log', encoding='utf-8', level=logging.DEBUG, filemode= 'w', format = '[%(levelname)s] %(asctime)s:  %(message)s')
 
 
 # *********** INFLUX *************
