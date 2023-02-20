@@ -20,7 +20,7 @@ COPY sensor.py /app/sensor.py
 COPY alarm.py /app/alarm.py
 COPY relay.py /app/relay.py
 COPY main.py /app/main.py
-
+COPY custom_logger.py /app/custom_logger.py
 # Run app.py when the container launches
 # The -u flag specifies to use the unbuffered ouput.
 # in this way, what's printed by the app is visible on the host
