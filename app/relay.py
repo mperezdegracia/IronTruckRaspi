@@ -33,12 +33,12 @@ class RelayController(object):
     @staticmethod
     def turnON(relay_number):
         relay = RelayController.RELAYS[relay_number]
-        GPIO.output(relay, GPIO.HIGH)
+        GPIO.output(relay, GPIO.LOW)
 
     @staticmethod
     def turnOFF(relay_number):
         relay = RelayController.RELAYS[relay_number]
-        GPIO.output(relay, GPIO.LOW)
+        GPIO.output(relay, GPIO.HIGH)
     @staticmethod
     def allOFF():
         logging.debug(f'[RELAY] TURNING ALL RELAYS ON')
@@ -58,7 +58,7 @@ class RelayController(object):
     def apply_setting(setting: str):
         current_state =RelayController.get_states()
         if (setting != current_state):
-            logging.info(f'[RELAY] ---> RELAYS from {current_state} to {setting} CONFIGURATION')
+            logging.info(f'[RELAY] ---> RELAYS from {current_state}to {setting} CONFIGURATION')
 
             for relay_number, bit in enumerate(setting):
                 RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)
@@ -69,7 +69,8 @@ class RelayController(object):
     def get_states():
         state = ''
         for relay in RelayController.RELAYS:
-            state += str(GPIO.input(relay))
+            state += '0' if GPIO.input(relay) else '1'
+        
         return state
 if __name__ == '__main__':
 
