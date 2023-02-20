@@ -76,7 +76,7 @@ class MqttController(object):
         topic = message.topic[1:]
 
         if res == self.RELAY_STATE:
-            self.log(f'RELAY STATE CHANGED ---> RELAY {id} = {new_value}')
+            logging.info(f'[MQTT] RELAY STATE CHANGED ---> RELAY {id} = {new_value}')
             RelayController.turnON(id-1) if new_value else RelayController.turnOFF(id-1)
             return
             

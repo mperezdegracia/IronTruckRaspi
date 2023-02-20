@@ -32,4 +32,4 @@ class Sensor(object):
         return self.state
 
     def __str__(self) -> str:
-        return f'[{ __class__.__name__}]  NAME: {self.name} | PIN: [{self.pin}]'
+        return f'[{ __class__.__name__}] {self.name}({self.pin})'

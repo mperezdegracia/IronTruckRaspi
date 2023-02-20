@@ -20,7 +20,7 @@ class DHT_22(Sensor):
             self.state = temperature
 
             logging.info(
-                f'{self} --> READING: temperature: {round(temperature,2)} , humidity: {round(humidity,2)}')
+                f'{self} READING: ({round(temperature,2)} , {round(humidity,2)})')
             # successful
             return {'temperature': temperature, 'humidity': humidity}
 

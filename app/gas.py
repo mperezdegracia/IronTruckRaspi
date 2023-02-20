@@ -20,7 +20,7 @@ class MQ2(Sensor):
             PPM = round(26.572 * math.exp(1.2894*voltage), 2)
             self.state = PPM
             logging.info(
-                f'{self} --> READING: gas: {PPM}')
+                f'{self} READING: {PPM}')
             return {'gas': PPM}
 
         except Exception as error:
