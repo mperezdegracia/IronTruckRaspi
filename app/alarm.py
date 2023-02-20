@@ -13,11 +13,11 @@ class Alarm(object):
 
 
     def activate(self):
-        logging.debug(f'[ALARM] [ACTIVE] ---> {self.sensor}')
+        logging.info(f'[ALARM] [ACTIVE] ---> {self.sensor}')
         self.is_active = True
 
     def deactivate(self):
-        logging.debug(f'[ALARM] [OFF] ---> {self.sensor}')
+        logging.info(f'[ALARM] [OFF] ---> {self.sensor}')
         self.is_active = False
 
     def is_stateValid(self):
@@ -26,7 +26,7 @@ class Alarm(object):
     def triggered(self):
         result =  self.__state != self.__last_state
         if result : 
-            logging.debug(f'[ALARM] [TRIGGERED] --> {self.sensor}')
+            logging.info(f'[ALARM] [TRIGGERED] --> {self.sensor}')
         return result
         
     def get_state(self):
