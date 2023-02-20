@@ -112,7 +112,7 @@ def setup():
     script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
     if (not set_up_logging(console_log_output="stdout", console_log_level="info", console_log_color=True,
                            logfile_file=script_name + ".log", logfile_log_level="debug", logfile_log_color=False,
-                           log_line_template="%(color_on)s[%(asctime)d] [%(threadName)-10s] [%(levelname)-8s] %(message)s%(color_off)s")):
+                           log_line_template="%(color_on)s[%(asctime)s] [%(threadName)-10s] [%(levelname)-8s] %(message)s%(color_off)s")):
         print("Failed to set up logging, aborting.")
         return 1
 
