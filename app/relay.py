@@ -27,7 +27,6 @@ class RelayController(object):
     GPIO.setwarnings(False)
     RELAYS = [14, 27, 10, 9, 11, 0, 5, 6]  # [5,6,10,0,14,11,9,27]
 
-    CURRENT_SETTING = '00000000'
     for pin in RELAYS:
         GPIO.setup(pin, GPIO.OUT, initial=GPIO.HIGH)
 
@@ -57,16 +56,20 @@ class RelayController(object):
     
     @staticmethod
     def apply_setting(setting: str):
-        logging.info(f'[RELAY] ---> RELAYS to {setting} CONFIGURATION')
-
-        if (setting != RelayController.CURRENT_SETTING):
-            #logging.info(f'[RELAY] ---> RELAYS to {setting} CONFIGURATION')
+        if (setting != RelayController.get_states()):
+            logging.info(f'[RELAY] ---> RELAYS to {setting} CONFIGURATION')
 
             for relay_number, bit in enumerate(setting):
                 RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)
             RelayController.CURRENT_SETTING = setting
             return True
         return False
+    @staticmethod
+    def get_states():
+        state = ''
+        for relay in RelayController.RELAYS:
+            state += str(GPIO.input(relay))
+        return state
 if __name__ == '__main__':
 
     RelayController.apply_mask(RelayMask('10000001'))
