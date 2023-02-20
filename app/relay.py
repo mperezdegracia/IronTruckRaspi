@@ -33,12 +33,12 @@ class RelayController(object):
     @staticmethod
     def turnON(relay_number):
         relay = RelayController.RELAYS[relay_number]
-        GPIO.output(relay, GPIO.LOW)
+        GPIO.output(relay, GPIO.HIGH)
 
     @staticmethod
     def turnOFF(relay_number):
         relay = RelayController.RELAYS[relay_number]
-        GPIO.output(relay, GPIO.HIGH)
+        GPIO.output(relay, GPIO.LOW)
     @staticmethod
     def allOFF():
         logging.debug(f'[RELAY] TURNING ALL RELAYS ON')
