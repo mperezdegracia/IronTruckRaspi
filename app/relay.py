@@ -56,8 +56,9 @@ class RelayController(object):
     
     @staticmethod
     def apply_setting(setting: str):
-        if (setting != RelayController.get_states()):
-            logging.info(f'[RELAY] ---> RELAYS to {setting} CONFIGURATION')
+        current_state =RelayController.get_states()
+        if (setting != current_state):
+            logging.info(f'[RELAY] ---> RELAYS from {current_state} to {setting} CONFIGURATION')
 
             for relay_number, bit in enumerate(setting):
                 RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)
