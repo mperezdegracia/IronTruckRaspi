@@ -13,8 +13,9 @@ class RelayMask:
         self.__mask ^= 0
     
     def reset(self):
-        self.__mask = 0
-    
+        # estados de los relays  - relayMask
+        self.apply_to_mask ^= int(RelayController.get_states(),2)
+
     def __iter__ (self):
         return f'{self.__mask:08b}'.__iter__()
     def get(self):
@@ -56,12 +57,15 @@ class RelayController(object):
     
     @staticmethod
     def apply_setting(setting: str):
-        current_state =RelayController.get_states()
+        current_state = RelayController.get_states()
         if (setting != current_state):
-            logging.info(f'[RELAY] ---> RELAYS from {current_state}to {setting} CONFIGURATION')
+            logging.info(f'[RELAY] ---> RELAYS from {current_state} to {setting} CONFIGURATION')
 
             for relay_number, bit in enumerate(setting):
-                RelayController.turnON(relay_number) if int(bit) else RelayController.turnOFF(relay_number)
+                if int(bit):
+                    RelayController.turnON(relay_number) 
+                else:
+                    RelayController.turnOFF(relay_number)
             RelayController.CURRENT_SETTING = setting
             return True
         return False

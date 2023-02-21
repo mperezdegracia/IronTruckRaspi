@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Settings version="1.0">
+  <Fronius>
+    <InverterIds type="s" default="" silent="False"></InverterIds>
+    <AutoScan type="i" default="1" silent="False">1</AutoScan>
+    <IPAddresses type="s" default="" silent="False"></IPAddresses>
+    <KnownIPAddresses type="s" default="" silent="False"></KnownIPAddresses>
+    <PortNumber type="i" default="80" silent="False">80</PortNumber>
+  </Fronius>
+  <CGwacs>
+    <BatteryLife>
+      <Schedule>
+        <Charge>
+          <_2>
+            <Day type="i" min="-10" max="9" default="-7" silent="False">-7</Day>
+            <Soc type="i" min="0" max="100" default="100" silent="False">100</Soc>
+            <Duration type="i" default="0" silent="False">0</Duration>
+            <Start type="i" default="0" silent="False">0</Start>
+          </_2>
+          <_0>
+            <Duration type="i" default="0" silent="False">0</Duration>
+            <Day type="i" min="-10" max="9" default="-7" silent="False">-7</Day>
+            <Start type="i" default="0" silent="False">0</Start>
+            <Soc type="i" min="0" max="100" default="100" silent="False">100</Soc>
+          </_0>
+          <_1>
+            <Soc type="i" min="0" max="100" default="100" silent="False">100</Soc>
+            <Start type="i" default="0" silent="False">0</Start>
+            <Duration type="i" default="0" silent="False">0</Duration>
+            <Day type="i" min="-10" max="9" default="-7" silent="False">-7</Day>
+          </_1>
+          <_3>
+            <Day type="i" min="-10" max="9" default="-7" silent="False">-7</Day>
+            <Duration type="i" default="0" silent="False">0</Duration>
+            <Start type="i" default="0" silent="False">0</Start>
+            <Soc type="i" min="0" max="100" default="100" silent="False">100</Soc>
+          </_3>
+          <_4>
+            <Day type="i" min="-10" max="9" default="-7" silent="False">-7</Day>
+            <Start type="i" default="0" silent="False">0</Start>
+            <Duration type="i" default="0" silent="False">0</Duration>
+            <Soc type="i" min="0" max="100" default="100" silent="False">100</Soc>
+          </_4>
+        </Charge>
+      </Schedule>
+      <State type="i" default="1" silent="True">1</State>
+      <DischargedTime type="i" default="0" silent="True">0</DischargedTime>
+      <Flags type="i" default="0" silent="True">0</Flags>
+      <MinimumSocLimit type="f" min="0.0" max="100.0" default="10.0" silent="False">10.0</MinimumSocLimit>
+      <SocLimit type="f" min="0.0" max="100.0" default="10.0" silent="True">10.0</SocLimit>
+    </BatteryLife>
+  </CGwacs>
+  <Gui>
+    <Brightness type="i" min="0" max="100" default="100" silent="False">20</Brightness>
+    <MobileOverview type="i" min="0" max="1" default="0" silent="False">1</MobileOverview>
+    <DemoMode default="0" max="1" type="i" silent="False" min="0">0</DemoMode>
+    <TanksOverview type="i" min="0" max="1" default="0" silent="False">0</TanksOverview>
+    <Language type="s" default="en" silent="False">en</Language>
+    <StartWithMenuView default="0" max="1" type="i" silent="False" min="0">1</StartWithMenuView>
+    <DisplayOff type="i" default="600" silent="False">600</DisplayOff>
+    <AutoBrightness type="i" min="0" max="1" default="1" silent="False">0</AutoBrightness>
+    <DefaultOverview type="s" default="" silent="False">OverviewMobile</DefaultOverview>
+  </Gui>
+  <System>
+    <SSHLocal type="i" min="0" max="1" default="0" silent="False">1</SSHLocal>
+    <RemoteSupport type="i" min="0" max="1" default="0" silent="False">1</RemoteSupport>
+    <ReleaseType type="i" min="0" max="3" default="0" silent="False">0</ReleaseType>
+    <ActiveNetworkConnection type="i" min="-1" max="3" default="-1" silent="True">2</ActiveNetworkConnection>
+    <RemoteVncPort type="i" default="0" silent="False">26126</RemoteVncPort>
+    <VolumeUnit type="i" default="0" silent="False">0</VolumeUnit>
+    <RemoteSupportIpAndPort type="s" default="0" silent="False">13.244.154.199;40781</RemoteSupportIpAndPort>
+    <AutoUpdate default="1" max="3" type="i" silent="False" min="0">0</AutoUpdate>
+    <AccessLevel type="i" min="0" max="3" default="1" silent="False">2</AccessLevel>
+    <TimeZone type="s" default="/UTC" silent="False">/UTC</TimeZone>
+    <RemoteSupportPort default="0" type="i" silent="False">22005</RemoteSupportPort>
+    <VncLocal type="i" min="0" max="1" default="0" silent="False">1</VncLocal>
+    <LogLevel type="i" default="2" silent="False">2</LogLevel>
+    <VncInternet type="i" min="0" max="1" default="0" silent="False">1</VncInternet>
+  </System>
+  <Services>
+    <AccessPoint type="i" min="0" max="1" default="1" silent="False">1</AccessPoint>
+    <Bluetooth type="i" min="0" max="1" default="1" silent="False">1</Bluetooth>
+    <MqttLocalInsecure type="i" min="0" max="1" default="0" silent="False">1</MqttLocalInsecure>
+    <MqttLocal type="i" min="0" max="1" default="0" silent="False">1</MqttLocal>
+    <Console type="i" default="0" silent="False">0</Console>
+    <MqttVrm type="i" min="0" max="1" default="0" silent="False">1</MqttVrm>
+    <FischerPandaAutoStartStop type="i" min="0" max="1" default="0" silent="False">0</FischerPandaAutoStartStop>
+    <Bol default="0" max="1" type="i" silent="False" min="0">0</Bol>
+    <Mqtt default="0" max="1" type="i" silent="False" min="0">1</Mqtt>
+    <Vrmpubnub default="0" max="1" type="i" silent="False" min="0">1</Vrmpubnub>
+    <Socketcand type="i" min="0" max="1" default="0" silent="False">0</Socketcand>
+    <MqttN2k type="i" min="0" max="1" default="0" silent="False">0</MqttN2k>
+    <Modbus type="i" min="0" max="1" default="0" silent="False">1</Modbus>
+  </Services>
+  <Alarm>
+    <Vebus>
+      <HighDcRipple type="i" min="0" max="2" default="1" silent="False">1</HighDcRipple>
+      <VeBusError default="1" max="2" type="i" silent="False" min="0">1</VeBusError>
+      <VoltageSenseError type="i" min="0" max="2" default="1" silent="False">1</VoltageSenseError>
+      <HighDcCurrent type="i" min="0" max="2" default="1" silent="False">1</HighDcCurrent>
+      <LowBattery type="i" min="0" max="2" default="1" silent="False">1</LowBattery>
+      <InverterOverload type="i" min="0" max="2" default="1" silent="False">1</InverterOverload>
+      <TemperatureSenseError type="i" min="0" max="2" default="1" silent="False">1</TemperatureSenseError>
+      <HighDcVoltage type="i" min="0" max="2" default="1" silent="False">1</HighDcVoltage>
+      <HighTemperature type="i" min="0" max="2" default="1" silent="False">1</HighTemperature>
+    </Vebus>
+    <System>
+      <GridLost type="i" min="0" max="1" default="0" silent="False">0</GridLost>
+    </System>
+    <Audible type="i" default="1" silent="False">1</Audible>
+  </Alarm>
+  <RpiRelay>
+    <_2>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_2>
+    <_3>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_3>
+    <_6>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_6>
+    <_4>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_4>
+    <_1>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_1>
+    <_7>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_7>
+    <_5>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_5>
+    <_0>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_0>
+  </RpiRelay>
+  <RpiSensors>
+    <_6>
+      <Name type="s" default="Sensor 6" silent="False">Sensor 6</Name>
+      <AlarmSetting type="s" default="00000000" silent="False">00000010</AlarmSetting>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">0</AlarmTrigger>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">0</Alarm>
+    </_6>
+    <_9>
+      <Name type="s" default="Sensor 9" silent="False">Sensor 9</Name>
+      <AlarmSetting type="s" default="00000000" silent="False">00000111</AlarmSetting>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">0</AlarmTrigger>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">0</Alarm>
+    </_9>
+    <_7>
+      <Name type="s" default="Sensor 7" silent="False">Sensor 7</Name>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">0</AlarmTrigger>
+      <AlarmSetting type="s" default="00000000" silent="False">00000001</AlarmSetting>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">0</Alarm>
+    </_7>
+    <_5>
+      <Name type="s" default="Sensor 5" silent="False">Sensor 5</Name>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">0</AlarmTrigger>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">0</Alarm>
+      <AlarmSetting type="s" default="00000000" silent="False">00000100</AlarmSetting>
+    </_5>
+    <_0>
+      <Name type="s" default="Sensor 0" silent="False">Sensor 0</Name>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">30</AlarmTrigger>
+      <AlarmSetting type="s" default="00000000" silent="False">11111111</AlarmSetting>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">1</Alarm>
+    </_0>
+    <_3>
+      <Name type="s" default="Sensor 3" silent="False">Sensor 3</Name>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">1</Alarm>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">0</AlarmTrigger>
+      <AlarmSetting type="s" default="00000000" silent="False">00010000</AlarmSetting>
+    </_3>
+    <_1>
+      <Name type="s" default="Sensor 1" silent="False">Sensor 1</Name>
+      <AlarmSetting type="s" default="00000000" silent="False">00001100</AlarmSetting>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">1</Alarm>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">120</AlarmTrigger>
+    </_1>
+    <_4>
+      <Name type="s" default="Sensor 4" silent="False">Sensor 4</Name>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">0</Alarm>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">0</AlarmTrigger>
+      <AlarmSetting type="s" default="00000000" silent="False">00001000</AlarmSetting>
+    </_4>
+    <_2>
+      <Name type="s" default="Sensor 2" silent="False">Sensor 2</Name>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">20</AlarmTrigger>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">1</Alarm>
+      <AlarmSetting type="s" default="00000000" silent="False">00100000</AlarmSetting>
+    </_2>
+    <_8>
+      <Name type="s" default="Sensor 8" silent="False">Sensor 8</Name>
+      <AlarmSetting type="s" default="00000000" silent="False">00000111</AlarmSetting>
+      <Alarm type="i" min="0" max="1" default="0" silent="False">0</Alarm>
+      <AlarmTrigger type="i" min="0" max="10000" default="0" silent="False">0</AlarmTrigger>
+    </_8>
+  </RpiSensors>
+  <Vrmlogger>
+    <Url type="s" default="" silent="False"></Url>
+    <HttpsEnabled type="i" min="0" max="1" default="0" silent="False">1</HttpsEnabled>
+    <Http>
+      <Proxy type="s" default="" silent="False"></Proxy>
+      <ProxyPort type="s" default="" silent="False"></ProxyPort>
+    </Http>
+    <ExternalStorageDir type="s" default="" silent="False"></ExternalStorageDir>
+    <Logmode type="i" min="0" max="2" default="1" silent="False">1</Logmode>
+    <RamDiskMode type="i" min="0" max="1" default="0" silent="False">0</RamDiskMode>
+    <LogInterval type="i" default="900" silent="False">60</LogInterval>
+  </Vrmlogger>
+  <SystemSetup>
+    <BatteryService type="s" default="default" silent="False">default</BatteryService>
+    <SharedTemperatureSense type="i" default="1" silent="False">1</SharedTemperatureSense>
+    <BatteryCurrentSense type="i" default="1" silent="False">1</BatteryCurrentSense>
+    <TemperatureService type="s" default="default" silent="False">default</TemperatureService>
+    <AcInput1 default="1" type="i" silent="False">1</AcInput1>
+    <AcInput2 default="2" type="i" silent="False">2</AcInput2>
+    <HasAcOutSystem type="i" min="0" max="1" default="1" silent="False">1</HasAcOutSystem>
+    <SharedVoltageSense type="i" default="1" silent="False">1</SharedVoltageSense>
+    <HasDcSystem type="i" min="0" max="1" default="0" silent="False">0</HasDcSystem>
+    <MaxChargeVoltage type="f" min="0.0" max="80.0" default="0.0" silent="False">0.0</MaxChargeVoltage>
+    <SystemName type="s" default="" silent="False"></SystemName>
+    <MaxChargeCurrent type="i" min="-1" max="10000" default="-1" silent="False">-1</MaxChargeCurrent>
+  </SystemSetup>
+  <Vecan>
+    <can0>
+      <MainInterface>
+        <SystemInstance type="i" min="0" max="252" default="0" silent="False">0</SystemInstance>
+        <Instance type="i" min="0" max="252" default="0" silent="False">0</Instance>
+        <IdentityNumber type="i" min="0" max="500" default="0" silent="False">0</IdentityNumber>
+        <Description2 type="s" default="" silent="False"></Description2>
+        <Nad default="224" max="251" type="i" silent="False" min="0">0</Nad>
+      </MainInterface>
+      <FreeIdentityNumber type="i" min="0" max="500" default="0" silent="False">1</FreeIdentityNumber>
+      <VenusUniqueId type="i" min="1" max="19" default="1" silent="False">1</VenusUniqueId>
+      <N2kGatewayEnabled type="i" min="0" max="1" default="0" silent="False">0</N2kGatewayEnabled>
+    </can0>
+  </Vecan>
+  <Sensors>
+    <OnPosition>
+      <ACIn2_L2 type="s" default="" silent="False"></ACIn2_L2>
+      <ACIn1_L1 type="s" default="" silent="False"></ACIn1_L1>
+      <ACIn1_L2 type="s" default="" silent="False"></ACIn1_L2>
+      <ACIn1_L3 type="s" default="" silent="False"></ACIn1_L3>
+      <ACIn2_L1 type="s" default="" silent="False"></ACIn2_L1>
+      <ACOut_L3 type="s" default="" silent="False"></ACOut_L3>
+      <ACOut_L1 type="s" default="" silent="False"></ACOut_L1>
+      <ACOut_L2 type="s" default="" silent="False"></ACOut_L2>
+      <ACIn2_L3 type="s" default="" silent="False"></ACIn2_L3>
+    </OnPosition>
+  </Sensors>
+  <Relay>
+    <_1>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_1>
+    <Polarity type="i" default="0" silent="False">0</Polarity>
+    <_0>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">0</InitialState>
+    </_0>
+    <Function type="i" default="0" silent="False">0</Function>
+  </Relay>
+  <RpiBuzzer>
+    <_8>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">1</InitialState>
+    </_8>
+    <_9>
+      <InitialState type="i" min="0" max="1" default="0" silent="False">1</InitialState>
+    </_9>
+  </RpiBuzzer>
+  <Canbus>
+    <can0>
+      <Profile default="1" max="4" type="i" silent="False" min="0">1</Profile>
+    </can0>
+  </Canbus>
+  <ModbusClient>
+    <tcp>
+      <Devices type="s" default="" silent="False"></Devices>
+      <AutoScan type="i" min="0" max="1" default="0" silent="False">0</AutoScan>
+    </tcp>
+  </ModbusClient>
+  <Watchdog>
+    <VrmTimeout type="i" min="0" max="86400" default="0" silent="False">0</VrmTimeout>
+  </Watchdog>
+  <Gps>
+    <SpeedUnit type="s" default="km/h" silent="False">km/h</SpeedUnit>
+    <Format type="i" default="0" silent="False">0</Format>
+  </Gps>
+  <Devices>
+    <vebus_ttyO1>
+      <CustomName type="s" default="" silent="False"></CustomName>
+    </vebus_ttyO1>
+  </Devices>
+  <Gprs>
+    <Enabled type="i" default="0" silent="False">0</Enabled>
+  </Gprs>
+</Settings>

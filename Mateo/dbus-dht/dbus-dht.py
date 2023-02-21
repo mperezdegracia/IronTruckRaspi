@@ -32,7 +32,7 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument("-n", "--name", help="the D-Bus service you want me to claim",
-				type=str, default="com.victronenergy.dht")
+				type=str, default="com.victronenergy.sensors")
 
 parser.add_argument("-i", "--deviceinstance", help="the device instance you want me to be",
 				type=str, default="0")
@@ -70,7 +70,6 @@ dbusservice.add_path('/HardwareVersion', 0)
 dbusservice.add_path('/Connected', 1)
 
 # Create all the objects that we want to export to the dbus
-dbusservice.add_path('/Sensor/Count', None, writeable=True)
 
 dbusservice.add_path('/Sensors/0/State',1, writeable=True) # 0 No Alarm, 1 Alarm
 dbusservice.add_path('/Sensors/1/State',1, writeable=True)
