@@ -14,7 +14,7 @@ class RelayMask:
     
     def reset(self):
         # estados de los relays  - relayMask
-        self.apply_to_mask ^= int(RelayController.get_states(),2)
+        self.__mask ^= int(RelayController.get_states(),2)
 
     def __iter__ (self):
         return f'{self.__mask:08b}'.__iter__()
