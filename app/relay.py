@@ -77,7 +77,7 @@ class RelayController(object):
         
         return state
 if __name__ == '__main__':
-
+    '''
     RelayController.apply_mask(RelayMask('10000001'))
     time.sleep(2)
     RelayController.apply_mask(RelayMask('01111110'))
@@ -87,3 +87,17 @@ if __name__ == '__main__':
     RelayController.allON()
     time.sleep(2)
     RelayController.allOFF()
+
+
+    '''
+
+    mask = RelayMask(initial= '00000000')
+    RelayController.apply_mask('10000001')
+    while True:
+        mask.apply_to_mask('01100000')
+        mask.apply_to_mask('00000100')
+        RelayController.apply_mask(mask)
+        mask.reset()
+        print(f'State {RelayController.get_states()}')
+        time.sleep(2)
+
