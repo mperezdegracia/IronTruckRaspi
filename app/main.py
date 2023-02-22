@@ -77,7 +77,7 @@ class MqttController(object):
 
         if res == self.RELAY_STATE:
             logging.info(f'[MQTT] RELAY STATE CHANGED ---> RELAY {id} = {new_value}')
-            relays.set(id-1, new_value)
+            relays.get(id-1).set(new_value)
             return
             
         controller = network.get(id)        
