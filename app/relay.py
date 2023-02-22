@@ -21,6 +21,9 @@ class RelayMask:
     def get(self):
         return f'{self.__mask:08b}'
 
+    def __str__(self) -> str:
+        return self.get()
+
 class Relay(object):
     def __init__(self,pin, initial_state = False) -> None:
         GPIO.setmode(GPIO.BCM)  # GPIO Numbers instead of board numbers

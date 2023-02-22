@@ -157,7 +157,6 @@ class SensorController(object):
             settings = self.alarm.settings.getRelay()
             if(self.relay_mask):
                 if(state): 
-                    logging.info("APPLYING MASK {settings}")
                     self.relay_mask.apply_to_mask(settings)  
     
     def send_data(self):
@@ -233,6 +232,9 @@ class SensorControllerSet:
     def sensors_read(self):
         for controller in self:
             controller.send_data()
+        
+        logging.info(f'APPLYING MASK {self.relay_mask}')
+        
         if relays.apply_mask(self.relay_mask):
             mqtt.updateRelayStates(self.relay_mask)
 
