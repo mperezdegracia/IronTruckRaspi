@@ -5,21 +5,22 @@ import "utils.js" as Utils
 
 MbPage {
         id: root
+        property string sensor_num 
         property bool editMode: false
         property string alarmSetting: alarmSettingItem.value
         property int alarm: alarmItem.value
         VBusItem {
                 id: alarmItem
-                bind: "com.victronenergy.settings/Settings/RpiSensors/0/Alarm"
+                bind: "com.victronenergy.settings/Settings/RpiSensors/" + sensor_num + "/Alarm"
 
         }
         VBusItem {
                 id: alarmTriggerItem
-                bind: "com.victronenergy.settings/Settings/RpiSensors/0/AlarmTrigger"
+                bind: "com.victronenergy.settings/Settings/RpiSensors/" + sensor_num + "/AlarmTrigger"
         }
 	VBusItem {
                 id: alarmSettingItem
-                bind: "com.victronenergy.settings/Settings/RpiSensors/0/AlarmSetting"
+                bind: "com.victronenergy.settings/Settings/RpiSensors/" + sensor_num + "/AlarmSetting"
         }
 	VBusItem {
                 id: relay0

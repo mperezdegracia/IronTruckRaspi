@@ -10,117 +10,122 @@ MbPage {
                 id: sensor0
 		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: "Sensor 1"//qsTr("%1").arg(name.value)
+                description: "Habitacion de Mateo"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
+                        sensor_num: '0'
                         title: qsTr("Sensor")
                     }
                 }
             }
-    /*        	MbSubMenu {
+            MbSubMenu {
                 id: sensor1
-			    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/1/Name"}
+		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: qsTr("%1").arg(name.value)
+                description: "Gas Cocina"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
-                        title: relayOverviewItem.description
+                        sensor_num: '1'
+                        title: qsTr("Sensor")
                     }
                 }
-            }
-            	MbSubMenu {
+            }	
+            MbSubMenu {
                 id: sensor2
-			    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/2/Name"}
+		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: qsTr("%1").arg(name.value)
+                description: "Sensor 3"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
-                        title: relayOverviewItem.description
+                        sensor_num: '3'
+                        title: qsTr("Sensor")
                     }
                 }
             }
-            	MbSubMenu {
+            MbSubMenu {
                 id: sensor3
-			    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/3/Name"}
+		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: qsTr("%1").arg(name.value)
+                description: "Sensor 4"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
-                        title: relayOverviewItem.description
+                        sensor_num: '3'
+                        title: qsTr("Sensor")
                     }
                 }
             }
-            	MbSubMenu {
+            MbSubMenu {
                 id: sensor4
-			    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/4/Name"}
+		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: qsTr("%1").arg(name.value)
+                description: "Sensor 5"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
-                        title: relayOverviewItem.description
+                        sensor_num: '4'
+                        title: qsTr("Sensor")
                     }
                 }
             }
-
-            	MbSubMenu {
+            MbSubMenu {
                 id: sensor5
-			    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/5/Name"}
+		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: qsTr("%1").arg(name.value)
+                description: "Sensor 6"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
-                        title: relayOverviewItem.description
+                        sensor_num: '5'
+                        title: qsTr("Sensor")
                     }
                 }
             }
-            	MbSubMenu {
+            MbSubMenu {
                 id: sensor6
-			    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/6/Name"}
+		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: qsTr("%1").arg(name.value)
+                description: "Sensor 7"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
-                        title: relayOverviewItem.description
+                        sensor_num: '6'
+                        title: qsTr("Sensor")
                     }
                 }
             }
-            	MbSubMenu {
+            MbSubMenu {
                 id: sensor7
-			    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/7/Name"}
+		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: qsTr("%1").arg(name.value)
+                description: "Sensor 8"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
-                        title: relayOverviewItem.description
+                        sensor_num: '7'
+                        title: qsTr("Sensor")
                     }
                 }
             }
-            	MbSubMenu {
+            MbSubMenu {
                 id: sensor8
-			    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/8/Name"}
+		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: qsTr("%1").arg(name.value)
+                description: "Sensor 9"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
-                        title: relayOverviewItem.description
+                        sensor_num: '8'
+                        title: qsTr("Sensor")
                     }
                 }
             }
-            	MbSubMenu {
+            MbSubMenu {
                 id: sensor9
-			    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/9/Name"}
+		//	    property VBusItem name: VBusItem {bind: "com.victronenergy.sensors/Sensor/0/Name"}
                 
-                description: qsTr("%1").arg(name.value)
+                description: "Sensor 10"//qsTr("%1").arg(name.value)
                 subpage: Component {
                     PageRPISensor {
-                        title: relayOverviewItem.description
+                        sensor_num: '9'
+                        title: qsTr("Sensor")
                     }
                 }
             }
-            
-*/		
-	
-
 	}
 
 }

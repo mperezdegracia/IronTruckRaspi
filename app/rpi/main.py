@@ -164,6 +164,9 @@ class SensorController(object):
             if(self.relay_mask):
                 if(state): 
                     self.relay_mask.apply_to_mask(settings)  
+                else:
+                    if triggered:
+                        self.relay_mask.apply_to_mask(settings, inverse = True)  
     
     def send_data(self):
         data = {
