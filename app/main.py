@@ -264,7 +264,7 @@ CLIENT_NAME = "IronTruck"
 mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 KEEP_ALIVE = 30
 # ********************************
-READING_FREC = 5
+READING_FREC = 8
 
 # We now have running MQTT and InfluxDB database connection
 

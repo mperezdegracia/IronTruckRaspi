@@ -5,24 +5,25 @@ import logging
 
 
 class RelayMask:
-    def __init__(self,initial = '00000000') -> None:
-        self.__mask = 0
+    def __init__(self,initial = 'xxxxxxxx') -> None:
+        self.__mask = initial
 
         self.apply_to_mask(initial)
         
     def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0'= Stays the same or '1' = Toggle
-        self.__mask |= int(setting,2)
-    
+        for i,bit in enumerate(setting):
+            if int(bit):
+                value = (int(bit) ^ inverse) if self.__mask[i] is 'x' else (int(bit) ^ inverse) or int(self.__mask[i])
+                self.__mask[i] = value    
     def reset(self):
-        self.__mask = 0
+        self.__mask = 'xxxxxxxx'
 
     def __iter__ (self):
-        return f'{self.__mask:08b}'.__iter__()
+        return self.__mask.__iter__()
     def get(self):
-        return f'{self.__mask:08b}'
-
+        return self.__mask
     def __str__(self) -> str:
-        return self.get()
+        return self.__mask
 
 class Relay(object):
     def __init__(self,pin, initial_state = False) -> None:
@@ -66,7 +67,8 @@ class RelayController(object):
         state = self.state()
         if(setting != state):
             for i, relay in enumerate(self):
-                relay.set(int(setting[i]))
+                if(setting[i] != 'x'):
+                    relay.set(int(setting[i]))
 
             logging.info(f'[RELAY] ---> RELAYS from {state} to {self.state()} CONFIGURATION')
             

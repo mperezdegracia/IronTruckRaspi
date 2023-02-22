@@ -1,1 +1,5 @@
-print([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(1,9)])
+bit = '1'
+inverse = False
+mask = '0'
+value = (int(bit) ^ inverse) if mask == 'x' else (int(bit) ^ inverse) or int(mask)
+print(value)
