@@ -160,7 +160,7 @@ class SensorController(object):
             state = self.alarm.get_state()
             settings = self.alarm.settings.getRelay()
             if(self.relay_mask):
-                if(state):
+                if(triggered): # the mask now shows which relay we have to toggle
                     self.relay_mask.apply_to_mask(settings)  
             else:
                 # this would execute if the controller is not contained in network
