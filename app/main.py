@@ -234,10 +234,7 @@ class SensorControllerSet:
             controller.send_data()
         
         logging.info(f'APPLYING MASK {self.relay_mask}')
-        
-        if relays.apply_mask(self.relay_mask):
-            mqtt.updateRelayStates(self.relay_mask)
-
+        mqtt.updateRelayStates(self.relay_mask)
         self.relay_mask.reset()
 
 
