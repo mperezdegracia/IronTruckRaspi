@@ -1,8 +1,0 @@
-# requirements.txt
-influxdb
-paho-mqtt
-adafruit-circuitpython-ads1x15
-adafruit-circuitpython-dht
-RPi.GPIO
-
-

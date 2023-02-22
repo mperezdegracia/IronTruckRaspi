@@ -1,3 +1,0 @@
-#!/bin/sh
-exec 2>&1
-exec envdir ./env softlimit -d 150000000 -s 1000000 -a 150000000 nice -n-15 /opt/victronenergy/gui/start-gui.sh
