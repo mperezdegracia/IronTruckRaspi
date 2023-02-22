@@ -56,7 +56,8 @@ class MqttController(object):
 
     def updateRelayStates(self, bitmask: RelayMask):
         for relay_number, bit in enumerate(bitmask, start=1):
-            self.mqtt.publish(f'W/508cb1cb59e8/relays/0/Relay/{relay_number}/State', json.dumps({'value': bit}))
+            if bit != 'x':
+                self.mqtt.publish(f'W/508cb1cb59e8/relays/0/Relay/{relay_number}/State', json.dumps({'value': bit}))
 
         
 
