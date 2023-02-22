@@ -7,13 +7,11 @@ import logging
 class RelayMask:
     def __init__(self,initial = '00000000') -> None:
         self.__mask = 0
+        
         self.apply_to_mask(initial)
         
     def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0'= Stays the same or '1' = Toggle
         self.__mask |= int(setting,2)
-    
-    def invert(self):
-        self.__mask ^= 0
     
     def reset(self):
         self.__mask = 0
@@ -31,23 +29,54 @@ class Relay(object):
             raise "INVALID PIN"
         self.pin = pin
         GPIO.setup(self.pin, GPIO.OUT, initial=GPIO.LOW if initial_state else GPIO.HIGH)
-        self.state = initial_state  # only representative of RPI inner state for the relay, doesn't account for victron manual changes
-
+    def state(self):
+        return 0 if GPIO.input(self.pin) else 1
     def toggle(self):
-        set(not self.state)
+        set(not self.state())
     def set(self, new_state):
-        self.state = new_state
-        GPIO.output(self.pin, GPIO.LOW if self.state else GPIO.HIGH)
+        GPIO.output(self.pin, GPIO.LOW if new_state else GPIO.HIGH)
 
 
     
 class RelayController(object):
 
+    def __init__(self) -> None:
+        self.relays = []
+        RELAYS_PINS = [14, 27, 10, 9, 11, 0, 5, 6]
+        for pin in RELAYS_PINS:
+          self.relays.append(Relay(pin))
+
+    def get(self,relay_num):
+        return self.relays[relay_num]
+    
+
+    def apply_mask(self,mask: RelayMask):
+        self.apply_setting(mask.get())
+
+    def state(self):
+        current_state = ''
+        for relay in self:
+            current_state += relay.state()
+        return current_state
+
+    def apply_setting(self,setting: str):
+        state = self.state()
+        if(setting != state):
+            for i, relay in enumerate(self):
+                relay.set(int(setting[i]))
+
+            logging.info(f'[RELAY] ---> RELAYS from {state} to {self.state()} CONFIGURATION')
+            
+            return True
+        return False
+
+    def __iter__(self):
+        return self.relays.__iter__()
+    '''
     # this class assumes the current pinout
     # RELAYS = [14,27,10,9,11,0,5,6] GPIO.BCM
-    GPIO.setmode(GPIO.BCM)  # GPIO Numbers instead of board numbers
-    GPIO.setwarnings(False)
-    RELAYS_PINS = [14, 27, 10, 9, 11, 0, 5, 6]  # [5,6,10,0,14,11,9,27]
+   
+      # [5,6,10,0,14,11,9,27]
     relays = []
     for pin in RELAYS_PINS:
         relays.append(Relay(pin))
@@ -61,7 +90,6 @@ class RelayController(object):
         RelayController.relays[relay_number].set(False)
 
 
-    '''
     @staticmethod
     def allOFF():
         logging.debug(f'[RELAY] TURNING ALL RELAYS ON')
@@ -71,7 +99,7 @@ class RelayController(object):
     def allON():
         logging.debug(f'[RELAY] ---> TURNING ALL RELAYS ON')
         RelayController.apply_setting('11111111')
-    '''
+    
     @staticmethod
     def apply_mask(mask: RelayMask) :
         bitmask = mask.get()
@@ -94,6 +122,8 @@ class RelayController(object):
             state += '0' if GPIO.input(relay) else '1'
         
         return state
+        
+    '''
 if __name__ == '__main__':
     '''
     RelayController.apply_mask(RelayMask('10000001'))
