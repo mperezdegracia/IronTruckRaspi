@@ -27,24 +27,24 @@ services:
     networks:
       - victron
     container_name: influxdb
-# sensor:
+  sensor:
 # use your username instead of mine below!
-#   image: 43988611/iot_dummy_sensor:v1.0-X86_64
-#   links:
-#     - influxdb
-#   restart: always
-#   networks:
-#     - victron
-#   container_name: sensors
-#   devices:
-#     - "/dev/i2c-1:/dev/i2c-1"
-#     - "/dev/gpiomem:/dev/gpiomem"
+    image: 43988611/iot_dummy_sensor:v1.0-X86_64
+    links:
+      - influxdb
+    restart: always
+    networks:
+      - victron
+    container_name: sensors
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
+      - "/dev/gpiomem:/dev/gpiomem"
   graphing:
     image: "victronenergy/venus-docker-grafana:2.0.0"
     volumes:
       - "grafana-storage:/media/usb/victron/grafana"
-#    links:
-#      - sensor
+    links:
+       - sensor
     ports:
      - "3000:3000"
     restart: always
