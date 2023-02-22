@@ -12,15 +12,15 @@ RUN apt-get install -y python3-rpi.gpio
 RUN apt-get install -y libgpiod2
 
 # Copy the current directory contents into the container at /app
-COPY gas.py /app/gas.py
-COPY temp.py /app/temp.py
-COPY influx.py /app/influx.py
-COPY settings.py /app/settings.py
-COPY sensor.py /app/sensor.py
-COPY alarm.py /app/alarm.py
-COPY relay.py /app/relay.py
-COPY main.py /app/main.py
-COPY custom_logger.py /app/custom_logger.py
+COPY rpi/gas.py /app/gas.py
+COPY rpi/temp.py /app/temp.py
+COPY rpi/influx.py /app/influx.py
+COPY rpi/settings.py /app/settings.py
+COPY rpi/sensor.py /app/sensor.py
+COPY rpi/alarm.py /app/alarm.py
+COPY rpi/relay.py /app/relay.py
+COPY rpi/main.py /app/main.py
+COPY rpi/custom_logger.py /app/custom_logger.py
 # Run app.py when the container launches
 # The -u flag specifies to use the unbuffered ouput.
 # in this way, what's printed by the app is visible on the host
