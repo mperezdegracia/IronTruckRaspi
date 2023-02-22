@@ -77,7 +77,7 @@ class MqttController(object):
 
         if res == self.RELAY_STATE:
             logging.info(f'[MQTT] RELAY STATE CHANGED ---> RELAY {id} = {new_value}')
-            RelayController.turnON(id-1) if new_value else RelayController.turnOFF(id-1)
+            relays.turnON(id-1) if new_value else relays.turnOFF(id-1)
             return
             
         controller = network.get(id)        
@@ -233,7 +233,7 @@ class SensorControllerSet:
     def sensors_read(self):
         for controller in self:
             controller.send_data()
-        if RelayController.apply_mask(self.relay_mask):
+        if relays.apply_mask(self.relay_mask):
             mqtt.updateRelayStates(self.relay_mask)
 
         self.relay_mask.reset()
@@ -273,7 +273,7 @@ READING_FREC = 5
 
 network = SensorControllerSet()
 timer = datetime.datetime.now()
-
+relays = RelayController()
 def setup():
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
     network.add(SensorController(MQ2(pin=0, name="GAS Cocina"),SensorAlarmSettings(id=1), influx, mqtt))
