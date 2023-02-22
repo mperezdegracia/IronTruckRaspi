@@ -7,7 +7,7 @@ import logging
 class RelayMask:
     def __init__(self,initial = '00000000') -> None:
         self.__mask = 0
-        
+
         self.apply_to_mask(initial)
         
     def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0'= Stays the same or '1' = Toggle
@@ -56,7 +56,7 @@ class RelayController(object):
     def state(self):
         current_state = ''
         for relay in self:
-            current_state += relay.state()
+            current_state += str(relay.state())
         return current_state
 
     def apply_setting(self,setting: str):
