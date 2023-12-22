@@ -1,20 +1,20 @@
 version: '3.4'
 services:
-  server:
-    image: "victronenergy/venus-docker-server:latest"
-    ports:
-     - "8088:8088"
-    volumes:
-     - "config-storage:/media/usb/victron/config"
-    restart: always
-    networks:
-      - victron
-    container_name: server
-  upnp:
-    image: "victronenergy/venus-docker-upnp:latest"
-    network_mode: host
-    restart: always
-    container_name: upnp
+  # server:
+  #   image: "victronenergy/venus-docker-server:latest"
+  #   ports:
+  #    - "8088:8088"
+  #   volumes:
+  #    - "config-storage:/media/usb/victron/config"
+  #   restart: always
+  #   networks:
+  #     - victron
+  #   container_name: server
+  # upnp:
+  #   image: "victronenergy/venus-docker-upnp:latest"
+  #   network_mode: host
+  #   restart: always
+  #   container_name: upnp
   influxdb:
     image: "influxdb:1.7"
     ports:
