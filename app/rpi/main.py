@@ -1,4 +1,5 @@
 from influx import *
+from key import *
 from sensor import *
 from temp import *
 from gas import *
@@ -256,25 +257,14 @@ class SensorControllerSet:
 
 
 # *********** INFLUX *************
-
-
-HOST = "influxdb"  # Docker InfluxDB container running address
-PORT = 8086
-DATABASE_NAME = "IronTruck"
 influx = Influx(HOST, PORT)
 influx.connect_db(DATABASE_NAME)
-
 # ********************************
 
 # *********** MQTT ***************
 
-BROKER = "192.168.1.104"  # IP Victron CCGX PORT: 1883 (default)
-CLIENT_NAME = "IronTruck"
 mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
-KEEP_ALIVE = 30
 # ********************************
-READING_FREC = 8
-
 # We now have running MQTT and InfluxDB database connection
 
 

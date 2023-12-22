@@ -77,11 +77,13 @@ class RelayController(object):
     def __iter__(self):
         return self.relays.__iter__()
 
-if __name__ == '__main__':
-    
+
+
+
+def test(): 
     mask = RelayMask(initial= '00000000')
     RelayController.apply_mask('10000001')
-    while True:
+    for i in range(30):
         mask.apply_to_mask('01100000')
         mask.apply_to_mask('00000100')
         RelayController.apply_mask(mask)
@@ -89,3 +91,7 @@ if __name__ == '__main__':
         print(f'State {RelayController.get_states()}')
         time.sleep(2)
 
+
+if __name__ == '__main__':
+    test()
+    

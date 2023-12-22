@@ -30,3 +30,18 @@ class DHT_22(Sensor):
         except Exception as error:
             print(f'ERROR ---> {error}')
             return ()
+        
+
+
+# if main ejecutar test()
+
+def test(pin, name):
+    sensor = DHT_22(pin, name)
+    for i in range(1000):
+        sensor.read()
+        time.sleep(3)
+
+
+
+if __name__ == "__main__":
+    test(pin=0, name="GAS Cocina")

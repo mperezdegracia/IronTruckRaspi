@@ -64,27 +64,32 @@ class DBConnectionError(Exception):
         
 
 
-'''
-
-host = "influxdb"
-port = 8086
-dbController = Influx(host, port)
-
-dbController.connect_db("IronTruck")
-
-while True:
-    for i in range(20):
-        data = [{
-            'measurement': 'test',
-            'time': datetime.datetime.now(),
-            'fields': {
-                'x': random.randint(1, 40),
-            },
-        }]
-        dbController.client.write_points(data)
-    print(dbController.client.query(
-        'SELECT * FROM "test" GROUP BY * ORDER BY DESC LIMIT 1').raw)
-    time.sleep(4)
 
 
-'''
+
+def test():
+
+
+    host = "influxdb"
+    port = 8086
+    dbController = Influx(host, port)
+
+    dbController.connect_db("IronTruck")
+
+    for j in range(100):
+        for i in range(20):
+            data = [{
+                'measurement': 'test',
+                'time': datetime.datetime.now(),
+                'fields': {
+                    'x': random.randint(1, 40),
+                },
+            }]
+            dbController.client.write_points(data)
+        print(dbController.client.query(
+            'SELECT * FROM "test" GROUP BY * ORDER BY DESC LIMIT 1').raw)
+        time.sleep(4)
+
+
+if __name__ == "__main__":
+    test()

@@ -25,3 +25,18 @@ class MQ2(Sensor):
 
         except Exception as error:
             print(f'ERROR ->{error}')
+
+
+# if main ejecutar test()
+
+def test(pin, name):
+    sensor = MQ2(pin, name)
+    for i in range(1000):
+        sensor.read()
+        time.sleep(3)
+
+
+
+if __name__ == "__main__":
+
+    test(pin=21, name="Habitacion de Mateo")
