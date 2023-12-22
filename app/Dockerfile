@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.6.9-slim
+FROM python:3.9.2
 
 # Set the working directory to /app
 WORKDIR /app
@@ -25,5 +25,5 @@ COPY rpi/custom_logger.py /app/custom_logger.py
 # The -u flag specifies to use the unbuffered ouput.
 # in this way, what's printed by the app is visible on the host
 # while the container is running
-CMD python3 -u main.py
+#CMD python3 -u main.py
 
