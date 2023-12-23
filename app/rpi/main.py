@@ -9,9 +9,9 @@ import logging
 
 from influx import Influx
 from key import  KEEP_ALIVE, READING_FREC, HOST, PORT, DATABASE_NAME, BROKER, CLIENT_NAME  # Assuming this is a constant in key.py
-from sensor import Sensor, DHT_22, MQ2
-from temp import Temp  # Assuming Temp is the module for temperature-related functions
-from gas import Gas  # Assuming Gas is the module for gas-related functions
+from sensor import Sensor
+from temp import DHT_22  # Assuming Temp is the module for temperature-related functions
+from gas import MQ2  # Assuming Gas is the module for gas-related functions
 from relay import RelayController, RelayMask
 from alarm import Alarm, SensorAlarmSettings
 from settings import EmptySettingsException, Settings
