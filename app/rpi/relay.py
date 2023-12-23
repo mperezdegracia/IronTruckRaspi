@@ -35,8 +35,8 @@ class Relay(object):
     def state(self):
         return 0 if GPIO.input(self.pin) else 1
     def toggle(self):
-        set(not self.state())
-    def set(self, new_state):
+        self.set_state(not self.state())
+    def set_state(self, new_state):
         GPIO.output(self.pin, GPIO.LOW if new_state else GPIO.HIGH)
 
 
