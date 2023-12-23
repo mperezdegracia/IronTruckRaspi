@@ -47,15 +47,15 @@ class MqttController(object):
         self.mqtt.on_publish = self.on_publish
         self.mqtt.on_connect = self.on_connect
         self.mqtt.on_connect_fail = self.on_connect_fail
-        self.mqtt.on_subscribe = self.on_suscribe
+        self.mqtt.on_subscribe = self.on_subscribe
         self.mqtt.connect(broker, port, keepalive=60)
         self.mqtt.loop_start()
-        self.suscribeList([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(1,9)])
+        self.subscribe_all([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(1,9)])
 
     def on_publish(self, mqtt, userdata, mid):
         self.log('PUBLISH')
 
-    def updateRelayStates(self, bitmask: RelayMask):
+    def update_relay_states(self, bitmask: RelayMask):
         for relay_number, bit in enumerate(bitmask, start=1):
             if bit != 'x':
                 self.mqtt.publish(f'W/508cb1cb59e8/relays/0/Relay/{relay_number}/State', json.dumps({'value': bit}))
@@ -92,7 +92,7 @@ class MqttController(object):
                 controller.alarm.activate()  
             else:
                 controller.alarm.deactivate()
-                network.relay_mask.apply_to_mask(controller.alarm.settings.getRelay(), inverse = True)
+                network.relay_mask.apply_to_mask(controller.alarm.settings.get_relay(), inverse = True)
 
      
         self.log(f'[MQTT] -> RECEIVED ---> {topic} = {new_value}')
@@ -107,10 +107,10 @@ class MqttController(object):
         self.log(
             f' FAILED TO CONNECT ---> {client._client_id.decode("utf-8")}')
 
-    def on_suscribe(self, mqtt, userdata, mid, quos):
+    def on_subscribe(self, mqtt, userdata, mid, quos):
         self.log(f' SUSCRIBED')
 
-    def suscribeAll(self, obj: Settings):
+    def subscribe_settings(self, obj: Settings):
         if not obj: 
             raise EmptySettingsException(obj)
         for topic in obj.settings:
@@ -118,7 +118,7 @@ class MqttController(object):
             self.mqtt.publish(f'R{topic}')
             self.mqtt.subscribe(f'N{topic}')
 
-    def suscribeList(self, list):
+    def subscribe_all(self, list):
         if list:
             for topic in list:
                 self.log(f'SUBSCRIBING TO N{topic}')
@@ -140,7 +140,7 @@ class SensorController(object):
         self.database = database
         self.victron = victron
         self.alarm = Alarm(self.sensor, self.settings)   
-        self.victron.suscribeAll(settings)
+        self.victron.subscribe_settings(settings)
         self.relay_mask : RelayMask = None
     def log(self, message):
         logging.debug(f'[SENSOR CTRL]  {message}')
@@ -161,7 +161,7 @@ class SensorController(object):
 
             triggered = self.alarm.detect()
             state = self.alarm.get_state()
-            settings = self.alarm.settings.getRelay()
+            settings = self.alarm.settings.get_relay()
             if(self.relay_mask):
                 if(state): 
                     self.relay_mask.apply_to_mask(settings)  
@@ -182,7 +182,7 @@ class SensorController(object):
         if reading is None:
             if(self.relay_mask and self.alarm.get_state() and self.has_alarm()):
                 self.log("READING IS NONE, APPLYING MASK ANYWAY")
-                self.relay_mask.apply_to_mask(self.alarm.settings.getRelay())  
+                self.relay_mask.apply_to_mask(self.alarm.settings.get_relay())  
             return  # failed reading
             
 
@@ -244,7 +244,7 @@ class SensorControllerSet:
             controller.send_data()
         
         logging.info(f'APPLYING MASK {self.relay_mask}')
-        mqtt.updateRelayStates(self.relay_mask)
+        mqtt.update_relay_states(self.relay_mask)
         self.relay_mask.reset()
 
 

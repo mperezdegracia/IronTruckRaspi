@@ -6,23 +6,23 @@ import logging
 
 class RelayMask:
     def __init__(self,initial = 'xxxxxxxx') -> None:
-        self.__mask = initial
+        self._mask = initial
 
         
     def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0'= Stays the same or '1' = Toggle
         for i,bit in enumerate(setting):
             if int(bit):
-                value = (int(bit) ^ inverse) if self.__mask[i] is 'x' else (int(bit) ^ inverse) or int(self.__mask[i])
-                self.__mask  =  self.__mask[:i] + str(value) + self.__mask[i+1:]
+                value = (int(bit) ^ inverse) if self._mask[i] is 'x' else (int(bit) ^ inverse) or int(self._mask[i])
+                self._mask  =  self._mask[:i] + str(value) + self._mask[i+1:]
     def reset(self):
-        self.__mask = 'xxxxxxxx'
+        self._mask = 'xxxxxxxx'
 
     def __iter__ (self):
-        return self.__mask.__iter__()
+        return self._mask.__iter__()
     def get(self):
-        return self.__mask
+        return self._mask
     def __str__(self) -> str:
-        return self.__mask
+        return self._mask
 
 class Relay(object):
     def __init__(self,pin, initial_state = False) -> None:
