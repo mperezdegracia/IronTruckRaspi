@@ -8,7 +8,7 @@ import custom_logger
 import logging
 
 from influx import Influx
-from key import KEY, KEEP_ALIVE, READING_FREC, HOST, PORT, DATABASE_NAME, BROKER, CLIENT_NAME  # Assuming this is a constant in key.py
+from key import  KEEP_ALIVE, READING_FREC, HOST, PORT, DATABASE_NAME, BROKER, CLIENT_NAME  # Assuming this is a constant in key.py
 from sensor import Sensor, DHT_22, MQ2
 from temp import Temp  # Assuming Temp is the module for temperature-related functions
 from gas import Gas  # Assuming Gas is the module for gas-related functions
