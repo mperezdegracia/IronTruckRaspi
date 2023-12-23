@@ -33,7 +33,7 @@ class Alarm:
 
     def detect(self) -> bool:
         """Detect if the alarm should be triggered."""
-        if not self.is_state_valid() or not self.settings.isValid():
+        if not self.is_state_valid() or not self.settings.is_valid():
             raise InvalidAlarmSensorState(self)
         if self._state:
             # If the alarm is already sounding, check with hysteresis

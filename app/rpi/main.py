@@ -1,20 +1,20 @@
-from influx import *
-from key import *
-from sensor import *
-from temp import *
-from gas import *
-from relay import *
-from alarm import *
-from settings import *
+from datetime import datetime
 from threading import Thread
-import paho.mqtt.client as paho
-import json
 import time
-from settings import *
 import re
 import json
-from datetime import date
+import paho.mqtt.client as paho
 import custom_logger
+import logging
+
+from influx import Influx
+from key import KEY, KEEP_ALIVE, READING_FREC, HOST, PORT, DATABASE_NAME, BROKER, CLIENT_NAME  # Assuming this is a constant in key.py
+from sensor import Sensor, DHT_22, MQ2
+from temp import Temp  # Assuming Temp is the module for temperature-related functions
+from gas import Gas  # Assuming Gas is the module for gas-related functions
+from relay import RelayController, RelayMask
+from alarm import Alarm, SensorAlarmSettings
+from settings import EmptySettingsException, Settings
 #**********************  CONTROLLERS *******************************
 class MqttController(object):
     ALARM = 0
@@ -293,4 +293,6 @@ def main():
         time.sleep(READING_FREC)
         
         
-main()
+
+if __name__ == "__main__":
+    main()
