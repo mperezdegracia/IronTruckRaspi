@@ -2,62 +2,69 @@ from sensor import Sensor
 from settings import SensorAlarmSettings
 import logging
 
-class Alarm(object):
-    def __init__(self, sensor: Sensor, setting: SensorAlarmSettings, inverseTrigger=False) -> None:
+class Alarm:
+    """Class representing an alarm triggered by a sensor."""
+
+    def __init__(self, sensor: Sensor, setting: SensorAlarmSettings, inverse_trigger=False) -> None:
+        """Initialize the alarm with a sensor, settings, and an optional inverse trigger."""
         self.sensor = sensor
         self.settings = setting
-        self.is_inverse = inverseTrigger
+        self.is_inverse = inverse_trigger
         self.is_active = False
-        self.__last_state = False
-        self.__state = False 
-
+        self._state = False 
 
     def activate(self):
+        """Activate the alarm."""
         logging.info(f'[ALARM] [ACTIVE] ---> {self.sensor}')
         self.is_active = True
 
     def deactivate(self):
+        """Deactivate the alarm."""
         logging.info(f'[ALARM] [OFF] ---> {self.sensor}')
         self.is_active = False
 
-    def is_stateValid(self):
+    def is_state_valid(self):
+        """Check if the sensor state is valid."""
         return self.sensor.state is not None
-    
-    def triggered(self):
-        result =  self.__state != self.__last_state
-        if result : 
-            logging.info(f'[ALARM] [TRIGGERED] --> {self.sensor}')
-        return result
         
     def get_state(self):
-        return self.__state
+        """Get the current state of the alarm."""
+        return self._state
+
     def detect(self) -> bool:
-        if not self.is_stateValid() or not self.settings.isValid():
+        """Detect if the alarm should be triggered."""
+        if not self.is_state_valid() or not self.settings.is_valid():
             raise InvalidAlarmSensorState(self)
-        if self.__state:
-            # Entonces la alarma ya está sonando, checkeamos con histéresis
-            alarmState = self.sensor.state >= (self.settings.getTrigger()*(1- self.sensor.HYSTERESIS))
+        if self._state:
+            # If the alarm is already sounding, check with hysteresis
+            alarm_state = self.sensor.state >= (self.settings.get_trigger()*(1- self.sensor.HYSTERESIS))
         else: 
-            alarmState = self.sensor.state >= self.settings.getTrigger()
+            alarm_state = self.sensor.state >= self.settings.get_trigger()
 
-        alarmState = alarmState ^ self.is_inverse
-        #print(f'[ALARM] [STATE]] ---> {alarmState} last: {self.__state}')
+        alarm_state = alarm_state ^ self.is_inverse
         
-        self.__last_state = self.__state
-        self.__state = alarmState
+        triggered =  self._state != alarm_state
+        if triggered : 
+            on = 'ON' if alarm_state else 'OFF'
+            logging.info(f'[{self} [TRIGGERED] ({on}) --> {self.sensor}')
+
+        self._state = self.alarm_state
         
-        return self.triggered() 
-
-
+        return triggered
 
     def __str__(self) -> str:
-        return f'[ALARM] ---> SENSOR: {self.sensor} | TRIGGER: {self.settings.getTrigger()} | INVERSE: {self.is_inverse}'
+        """Return a string representation of the alarm."""
+        return f'[ALARM] ---> SENSOR: {self.sensor} | TRIGGER: {self.settings.get_trigger()} | INVERSE: {self.is_inverse}'
 
     def __del__(self):
-        logging.debug(f'[DELETE] ---> ALARM to {self.sensor}') #print(f'[DELETE] ---> {self}')
+        """Log when the alarm is deleted."""
+        logging.debug(f'[DELETE] ---> ALARM to {self.sensor}')
 
 
 class InvalidAlarmSensorState(Exception):
+    """Exception raised when the sensor state is invalid."""
+
     def __init__(self, alarm: Alarm) -> None:
+        """Initialize the exception with the invalid alarm."""
         super().__init__(
             f'[ERROR] -->  {alarm} INVALID SENSOR STATE ({alarm.sensor.state})')
