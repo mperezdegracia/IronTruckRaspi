@@ -48,7 +48,7 @@ class Alarm:
             on = 'ON' if alarm_state else 'OFF'
             logging.info(f'[{self} [TRIGGERED] ({on}) --> {self.sensor}')
 
-        self._state = self.alarm_state
+        self._state = alarm_state
         
         return triggered
 
