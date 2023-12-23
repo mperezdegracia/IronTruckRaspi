@@ -25,6 +25,7 @@ class MqttController(object):
     PATH_SENSORS = 'N/508cb1cb59e8/settings/0/Settings/RpiSensors/'
     PATH_RELAY = 'N/508cb1cb59e8/relays/0/Relay/'
 
+
     def log(self, message):
         logging.debug(f'[MQTT]  {message}')
 
@@ -48,6 +49,7 @@ class MqttController(object):
         self.mqtt.on_connect = self.on_connect
         self.mqtt.on_connect_fail = self.on_connect_fail
         self.mqtt.on_subscribe = self.on_subscribe
+        self.current_relay_state = None
         self.mqtt.connect(broker, port, keepalive=60)
         self.mqtt.loop_start()
         self.subscribe_all([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(1,9)])
@@ -60,11 +62,9 @@ class MqttController(object):
             if bit != 'x':
                 self.mqtt.publish(f'W/508cb1cb59e8/relays/0/Relay/{relay_number}/State', json.dumps({'value': bit}))
 
-        
-
-    
-    
-        
+        if  bitmask != self.current_relay_state or self.current_relay_state is None:
+            self.current_relay_state = bitmask
+            self.log(f'RELAY STATE CHANGED ---> {bitmask}')
     def on_message(self, mqtt, userdate, message):
 
         res, id= self.pattern(message.topic)
@@ -243,7 +243,7 @@ class SensorControllerSet:
         for controller in self:
             controller.send_data()
         
-        logging.info(f'APPLYING MASK {self.relay_mask}')
+        #logging.info(f'APPLYING MASK {self.relay_mask}')
         mqtt.update_relay_states(self.relay_mask)
         self.relay_mask.reset()
 
