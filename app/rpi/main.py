@@ -280,7 +280,10 @@ network = SensorControllerSet()
 relays = RelayController()
 
 
-
+class NamedTimer(threading.Timer):
+    def __init__(self, interval, function, name, args=None, kwargs=None):
+        super().__init__(interval, function, args, kwargs)
+        self.name =  name
 
 def setup():
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
@@ -288,11 +291,11 @@ def setup():
     
 
 def run_thread():
-    threading.Timer(5.0, run_thread).start()  # Run the function every 5 seconds
+    threading.NamedTimer(5.0, run_thread, name="Sensors").start()  # Run the function every 5 seconds
     network.sensors_read()
 
 def keep_alive_thread():
-    threading.Timer(KEEP_ALIVE, keep_alive_thread).start()  # Run the function every 5 seconds
+    threading.NamedTimer(KEEP_ALIVE, keep_alive_thread, name= "Keep Alive").start()  # Run the function every 5 seconds
     mqtt.keep_alive()
 
 def main():
