@@ -291,11 +291,11 @@ def setup():
     
 
 def run_thread():
-    threading.NamedTimer(5.0, run_thread, name="Sensors").start()  # Run the function every 5 seconds
+    NamedTimer(5.0, run_thread, name="Sensors").start()  # Run the function every 5 seconds
     network.sensors_read()
 
 def keep_alive_thread():
-    threading.NamedTimer(KEEP_ALIVE, keep_alive_thread, name= "Keep Alive").start()  # Run the function every 5 seconds
+    NamedTimer(KEEP_ALIVE, keep_alive_thread, name= "Keep Alive").start()  # Run the function every 5 seconds
     mqtt.keep_alive()
 
 def main():
