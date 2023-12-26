@@ -1,5 +1,5 @@
 from datetime import datetime
-from threading import Thread
+import threading
 import time
 import re
 import json
@@ -268,29 +268,39 @@ mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 # We now have running MQTT and InfluxDB database connection
 
 
+# def keep_alive_count ():
+#     global timer
+#     passed = datetime.now() - timer
+#     if passed.total_seconds() >= KEEP_ALIVE:
+#         mqtt.keep_alive()
+#         timer = datetime.now() 
+
 
 network = SensorControllerSet()
-timer = datetime.now()
 relays = RelayController()
+
+
+
+
 def setup():
     network.add(SensorController(DHT_22(pin=21, name="Habitacion de Mateo"),SensorAlarmSettings(id=0), influx, mqtt))
     network.add(SensorController(MQ2(pin=0, name="GAS Cocina"),SensorAlarmSettings(id=1), influx, mqtt))
+    
 
-def keep_alive_count ():
-    global timer
-    passed = datetime.now() - timer
-    if passed.total_seconds() >= KEEP_ALIVE:
-        mqtt.keep_alive()
-        timer = datetime.now() 
+def run_thread():
+    threading.Timer(5.0, run_thread).start()  # Run the function every 5 seconds
+    network.sensors_read()
 
+def keep_alive_thread():
+    threading.Timer(KEEP_ALIVE, keep_alive_thread).start()  # Run the function every 5 seconds
+    mqtt.keep_alive()
 
 def main():
     setup()
-    while True:
-        
-        network.sensors_read()
-        keep_alive_count()
-        time.sleep(READING_FREC)
+    keep_alive_thread()
+    run_thread()
+
+   
         
         
 
