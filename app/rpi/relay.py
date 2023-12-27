@@ -75,7 +75,7 @@ class RelayController(object):
             logging.info(f'[RELAY] ---> RELAYS from {state} to {self.state()} CONFIGURATION')
             
             return True
-        return False
+        return False    
 
     def __iter__(self):
         return self.relays.__iter__()

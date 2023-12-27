@@ -92,7 +92,7 @@ class MqttController(object):
                 controller.alarm.activate()  
             else:
                 controller.alarm.deactivate()
-                network.relay_mask.apply_to_mask(controller.alarm.settings.get_relay(), inverse = True)
+                network.relay_mask.apply_to_mask('00000000')
 
 
      
