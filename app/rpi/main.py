@@ -277,9 +277,11 @@ mqtt = MqttController(broker=BROKER, clientName=CLIENT_NAME)
 #         timer = datetime.now() 
 
 
+
 network = SensorControllerSet()
 relays = RelayController()
 
+time.sleep(20)
 
 class NamedTimer(threading.Timer):
     def __init__(self, interval, function, name, args=None, kwargs=None):
