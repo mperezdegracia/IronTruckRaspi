@@ -83,7 +83,7 @@ class MqttController(object):
             return
             
         controller = network.get(id)        
-        if res == self.ALARM:
+        if res == self.ALARM and controller:
             
             if not controller:
             #sensor not available 
@@ -93,6 +93,7 @@ class MqttController(object):
             else:
                 controller.alarm.deactivate()
                 network.relay_mask.apply_to_mask(controller.alarm.settings.get_relay(), inverse = True)
+
 
      
         self.log(f'[MQTT] -> RECEIVED ---> {topic} = {new_value}')

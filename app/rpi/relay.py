@@ -10,6 +10,9 @@ class RelayMask:
 
         
     def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0'= Stays the same or '1' = Toggle
+        if not setting:
+            return
+        
         for i,bit in enumerate(setting):
             if int(bit):
                 value = (int(bit) ^ inverse) if self._mask[i] is 'x' else (int(bit) ^ inverse) or int(self._mask[i])
