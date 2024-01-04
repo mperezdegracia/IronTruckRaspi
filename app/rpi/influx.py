@@ -15,6 +15,16 @@ class Influx(object):
         self.port = port
         self.client = InfluxDBClient(host, port, retries=5, timeout=2)
 
+    
+    def post_data(self, name, data):
+        '''Post data to influxdb'''
+        point = {
+            "measurement": name,
+            "time": datetime.datetime.now(),
+            "fields": data
+        }
+        self.client.write_points([point])
+
     def connect_db(self, dbname):
         '''connect to the database, and create it if it does not exist'''
 

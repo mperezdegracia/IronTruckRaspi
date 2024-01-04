@@ -18,12 +18,13 @@ class Sensor(object):
             return self.pin == other.pin
         return False
     
-
+    def get_alarm_variable(self):
+        pass
     '''
     Must be overloaded by subclasses
     '''
 
-    def _read(self):
+    def read(self):
         # return JSON ? TODO
         return {}
 
@@ -33,3 +34,6 @@ class Sensor(object):
 
     def __str__(self) -> str:
         return f'[{ __class__.__name__}] {self.name}({self.pin})'
+
+
+

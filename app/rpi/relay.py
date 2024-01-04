@@ -4,29 +4,6 @@ import logging
 
 
 
-class RelayMask:
-    def __init__(self,initial = 'xxxxxxxx') -> None:
-        self._mask = initial
-
-        
-    def apply_to_mask(self, setting, inverse = False):  # setting = '00000000' each being '0'= Stays the same or '1' = Toggle
-        if not setting:
-            return
-        
-        for i,bit in enumerate(setting):
-            if int(bit):
-                value = (int(bit) ^ inverse) if self._mask[i] is 'x' else (int(bit) ^ inverse) or int(self._mask[i])
-                self._mask  =  self._mask[:i] + str(value) + self._mask[i+1:]
-    def reset(self):
-        self._mask = 'xxxxxxxx'
-
-    def __iter__ (self):
-        return self._mask.__iter__()
-    def get(self):
-        return self._mask
-    def __str__(self) -> str:
-        return self._mask
-
 class Relay(object):
     def __init__(self,pin, initial_state = False) -> None:
         GPIO.setmode(GPIO.BCM)  # GPIO Numbers instead of board numbers
@@ -49,15 +26,12 @@ class RelayController(object):
     def __init__(self) -> None:
         self.relays = []
         RELAYS_PINS = [14, 27, 10, 9, 11, 0, 5, 6]
+        self.mask = 'xxxxxxxx'
         for pin in RELAYS_PINS:
           self.relays.append(Relay(pin))
 
     def get(self,relay_num):
         return self.relays[relay_num]
-    
-
-    def apply_mask(self,mask: RelayMask):
-        self.apply_setting(mask.get())
 
     def state(self):
         current_state = ''
@@ -65,17 +39,31 @@ class RelayController(object):
             current_state += str(relay.state())
         return current_state
 
-    def apply_setting(self,setting: str):
-        state = self.state()
-        if(setting != state):
-            for i, relay in enumerate(self):
-                if(setting[i] != 'x'):
-                    relay.set(int(setting[i]))
+    def update_mask(self, setting):
+        old_mask = self.mask
+        if old_mask == setting:
+            return False
+        for i in range(len(old_mask)):
+            self.mask[i] = '1' if old_mask[i] or setting[i] else '0'
+        return True
+        # apply new mask
 
-            logging.info(f'[RELAY] ---> RELAYS from {state} to {self.state()} CONFIGURATION')
-            
-            return True
-        return False    
+
+    def set_relay(self, relay_num, state):
+        self.relays[relay_num].set_state(state)
+        self.mask[relay_num] = '1' if state else '0'
+        logging.info(f'[RELAY] ---> RELAY {relay_num} = {state}')
+
+
+    # def apply_mask(self):
+    #     state = self.state()
+    #     if(self.mask != state):
+    #         for i, relay in enumerate(self):
+    #             if(self.mask[i] != 'x'):
+    #                 relay.set(int(self.mask[i]))
+    #         logging.info(f'[RELAY] ---> RELAYS from {state} to {self.state()} CONFIGURATION')
+    #         return True
+    #     return False    
 
     def __iter__(self):
         return self.relays.__iter__()
@@ -84,15 +72,7 @@ class RelayController(object):
 
 
 def test(): 
-    mask = RelayMask(initial= '00000000')
-    RelayController.apply_mask('10000001')
-    for i in range(30):
-        mask.apply_to_mask('01100000')
-        mask.apply_to_mask('00000100')
-        RelayController.apply_mask(mask)
-        mask.reset()
-        print(f'State {RelayController.get_states()}')
-        time.sleep(2)
+    pass
 
 
 if __name__ == '__main__':

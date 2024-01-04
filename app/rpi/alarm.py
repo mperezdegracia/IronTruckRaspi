@@ -11,7 +11,7 @@ class Alarm:
         self.settings = setting
         self.is_inverse = inverse_trigger
         self.is_active = False
-        self._state = False 
+        self.state = False 
 
     def activate(self):
         """Activate the alarm."""
@@ -29,13 +29,13 @@ class Alarm:
         
     def get_state(self):
         """Get the current state of the alarm."""
-        return self._state
+        return self.state
 
     def detect(self) -> bool:
         """Detect if the alarm should be triggered."""
         if not self.is_state_valid() or not self.settings.is_valid():
             raise InvalidAlarmSensorState(self)
-        if self._state:
+        if self.state:
             # If the alarm is already sounding, check with hysteresis
             alarm_state = self.sensor.state >= (self.settings.get_trigger()*(1- self.sensor.HYSTERESIS))
         else: 
@@ -43,12 +43,12 @@ class Alarm:
 
         alarm_state = alarm_state ^ self.is_inverse
         
-        triggered =  self._state != alarm_state
+        triggered =  self.state != alarm_state
         if triggered : 
             on = 'ON' if alarm_state else 'OFF'
             logging.info(f'[{self} [TRIGGERED] ({on}) --> {self.sensor}')
 
-        self._state = alarm_state
+        self.state = alarm_state
         
         return triggered
 

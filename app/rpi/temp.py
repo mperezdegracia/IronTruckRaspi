@@ -12,7 +12,7 @@ class DHT_22(Sensor):
         super(DHT_22, self).__init__(pin, name)
         self.device = adafruit_dht.DHT22(Pin(self.pin))
 
-    def _read(self):
+    def read(self):
         try:
             # Print the values to the serial port
             temperature = self.device.temperature
@@ -31,7 +31,8 @@ class DHT_22(Sensor):
             print(f'ERROR ---> {error}')
             return ()
         
-
+    def get_alarm_variable(self):
+        return 'temperature'
 
 # if main ejecutar test()
 
