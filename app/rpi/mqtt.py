@@ -3,7 +3,6 @@ import re
 import json
 import paho.mqtt.client as paho
 from settings import EmptySettingsException, Settings
-from relay import RelayMask
 
 class MqttController(object):
 

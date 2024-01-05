@@ -4,7 +4,6 @@ import time
 from .influx import Influx
 from .mqtt import MqttController
 from .manager import Manager
-from .controller import SensorController
 from .alarm import SensorAlarmSettings
 from .temp import DHT_22
 from .gas import MQ2

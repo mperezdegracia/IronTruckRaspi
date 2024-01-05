@@ -6,6 +6,8 @@ from .influx import Influx
 from .relay import RelayController
 import json
 import re
+
+
 class Manager:
     
     def __init__(self) -> None:
