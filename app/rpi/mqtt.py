@@ -3,7 +3,7 @@ import re
 import json
 import paho.mqtt.client as paho
 from settings import EmptySettingsException, Settings
-
+from key import DEVICES
 class MqttController(object):
 
     def log(self, message):
@@ -18,8 +18,9 @@ class MqttController(object):
         self.mqtt.on_subscribe = self.on_subscribe
         self.mqtt.connect(broker, port, keepalive=60)
         self.mqtt.loop_start()
-        #self.subscribe_all([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(1,9)])
-
+        self.subscribe_all([f'/508cb1cb59e8/relays/0/Relay/{i}/State' for i in range(1,9)])
+        for sensor in DEVICES:
+            self.subscribe_settings(DEVICES[sensor].settings)
     def on_publish(self, mqtt, userdata, mid):
         self.log('PUBLISH')
 
