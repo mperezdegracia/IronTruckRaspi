@@ -26,14 +26,10 @@ class Manager:
     
 
     def get_alarm(self, id) -> Alarm:
-        for sensor, alarm in self.sensors.items():
-            if sensor.id == id:
-                return alarm
+        return self.sensors.get.values()[id]
     def get_sensor(self, id):
-        for sensor in self.sensors.keys():
-            if sensor.id == id:
-                return sensor
-    
+        return self.sensors.keys()[id]
+            
     def on_message(self, mqtt, userdate, message):
         ALARM = 0
         RELAY_STATE = 3
