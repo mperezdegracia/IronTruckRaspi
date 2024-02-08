@@ -15,7 +15,8 @@ class Manager:
         self.influx.connect_db(DATABASE_NAME)
         self.relays = RelayController()
         self.sensors = DEVICES # dict sensor -> alarm settings
-
+        self.PATH_SENSORS = 'N/508cb1cb59e8/settings/0/Settings/RpiSensors/'
+        self.PATH_RELAY = 'N/508cb1cb59e8/relays/0/Relay/'
         # TODO: suscribe to all mqtt topics needed
     
 
