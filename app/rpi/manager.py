@@ -8,6 +8,13 @@ import re
 
 
 class Manager:
+    ALARM = 0
+    RELAY = 1
+    TRIGGER = 2
+    RELAY_STATE = 3
+    ERROR = -1
+    PATH_SENSORS = 'N/508cb1cb59e8/settings/0/Settings/RpiSensors/'
+    PATH_RELAY = 'N/508cb1cb59e8/relays/0/Relay/'
     
     def __init__(self) -> None:
         self.mqtt = MqttController(broker=BROKER, on_message=self.on_message, clientName=CLIENT_NAME)
@@ -15,8 +22,6 @@ class Manager:
         self.influx.connect_db(DATABASE_NAME)
         self.relays = RelayController()
         self.sensors = DEVICES # dict sensor -> alarm settings
-        self.PATH_SENSORS = 'N/508cb1cb59e8/settings/0/Settings/RpiSensors/'
-        self.PATH_RELAY = 'N/508cb1cb59e8/relays/0/Relay/'
         # TODO: suscribe to all mqtt topics needed
     
 
