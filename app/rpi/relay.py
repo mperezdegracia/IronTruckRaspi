@@ -49,7 +49,7 @@ class RelayController(object):
             self.aux[i] = '1' if setting[i] else '0'
         return True
         # apply new mask
-    def reset_mask(self):
+    def reset_masks(self):
         self.relays.mask = self.relays.aux
         self.relays.aux = '00000000'
         
