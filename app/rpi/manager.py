@@ -99,7 +99,7 @@ class Manager:
         # we read all sensors, now we can apply the mask
         if relay_change:
             self.mqtt.publish_relays(self.relays.aux)
-            self.relays.reset_maks()
+            self.relays.reset_masks()
 
 
 
