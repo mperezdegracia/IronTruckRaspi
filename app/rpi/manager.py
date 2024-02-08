@@ -15,7 +15,7 @@ class Manager:
     ERROR = -1
     PATH_SENSORS = 'N/508cb1cb59e8/settings/0/Settings/RpiSensors/'
     PATH_RELAY = 'N/508cb1cb59e8/relays/0/Relay/'
-    
+
     def __init__(self) -> None:
         self.mqtt = MqttController(broker=BROKER, on_message=self.on_message, clientName=CLIENT_NAME)
         self.influx = Influx(HOST, PORT)
@@ -65,9 +65,6 @@ class Manager:
                 alarm.deactivate()
                 self.relays.update_mask('00000000')
                 # TODO: if triggered I should turn off relays
-
-            
-        
         
         logging.info(f'[MQTT] -> RECEIVED ---> {topic} = {new_value}')
 

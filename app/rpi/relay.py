@@ -28,6 +28,9 @@ class RelayController(object):
         RELAYS_PINS = [14, 27, 10, 9, 11, 0, 5, 6]
         self.mask = 'xxxxxxxx'
         self.aux = '00000000'
+
+        self.mask = list(self.mask)
+        self.aux = list(self.aux)
         for pin in RELAYS_PINS:
           self.relays.append(Relay(pin))
 
@@ -53,6 +56,7 @@ class RelayController(object):
     
     def set_relay(self, relay_num, state):
         self.relays[relay_num].set_state(state)
+        # fix str object does not support item assignment
         self.mask[relay_num] = '1' if state else '0'
         logging.info(f'[RELAY] ---> RELAY {relay_num} = {state}')
 
