@@ -26,7 +26,7 @@ class Manager:
     
 
     def get_alarm(self, id) -> Alarm:
-        return list(self.sensors.get.values())[id-1]
+        return list(self.sensors.values())[id-1]
     def get_sensor(self, id):
         return list(self.sensors.keys())[id-1]
             
