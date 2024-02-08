@@ -26,9 +26,9 @@ class Manager:
     
 
     def get_alarm(self, id) -> Alarm:
-        return list(self.sensors.get.values())[id]
+        return list(self.sensors.get.values())[id-1]
     def get_sensor(self, id):
-        return list(self.sensors.keys())[id]
+        return list(self.sensors.keys())[id-1]
             
     def on_message(self, mqtt, userdate, message):
         ALARM = 0
