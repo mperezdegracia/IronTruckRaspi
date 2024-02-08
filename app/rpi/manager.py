@@ -97,7 +97,7 @@ class Manager:
                     self.relays.update_mask(mask)
         # we read all sensors, now we can apply the mask
         #if relay_change:
-        logging.debug(f'[RELAY UPDATE]  MASK: {str(self.relays.mask)} -> AUX: {str(self.relays.aux)}')
+        logging.info(f'[RELAY UPDATE]  MASK: {str(self.relays.mask)} -> AUX: {str(self.relays.aux)}')
         self.mqtt.publish_relays(self.relays.aux)
         self.relays.reset_masks()
 
