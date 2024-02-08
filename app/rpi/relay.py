@@ -46,7 +46,7 @@ class RelayController(object):
     def update_mask(self, setting):
         old_mask = self.aux
         for i in range(len(old_mask)):
-            self.aux[i] = '1' if setting[i] else '0'
+            self.aux[i] = '1' if setting[i] or self.aux[i] else '0'
         return True
         # apply new mask
     def reset_masks(self):

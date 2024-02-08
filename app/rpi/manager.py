@@ -81,7 +81,7 @@ class Manager:
         
             self.influx.post_data(sensor.name, reading)
 
-
+            mask = alarm.settings.get_relay()
             if alarm.is_active:
                 # TODO: check if alarm is triggered
                 triggered = alarm.detect()
@@ -89,13 +89,13 @@ class Manager:
                 if triggered:
                     relay_change = True
                     if alarm.state:
-                        mask = alarm.settings.get_relay()
                         self.relays.update_mask(mask)
                     
                     else:
                         self.relays.update_mask('00000000')
                 
-
+                elif alarm.state:
+                    self.relays.update_mask(mask)
         # we read all sensors, now we can apply the mask
         #if relay_change:
         self.mqtt.publish_relays(self.relays.aux)
