@@ -1,5 +1,4 @@
 import logging
-from relay import RelayMask
 from mqtt import MqttController
 from key import *
 from influx import Influx

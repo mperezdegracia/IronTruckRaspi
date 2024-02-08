@@ -23,7 +23,11 @@ class Sensor(object):
     '''
     Must be overloaded by subclasses
     '''
-
+    def __hash__(self) -> int:
+        return self.pin
+    
+    def __eq__(self, __value: object) -> bool:
+        return self.pin == __value.pin and self.name == __value.name
     def read(self):
         # return JSON ? TODO
         return {}
