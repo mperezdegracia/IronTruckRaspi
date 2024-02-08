@@ -21,6 +21,12 @@ COPY rpi/alarm.py /app/alarm.py
 COPY rpi/relay.py /app/relay.py
 COPY rpi/main.py /app/main.py
 COPY rpi/custom_logger.py /app/custom_logger.py
+COPY rpi/custom_logger.py /app/custom_logger.py
+COPY rpi/mqtt.py /app/mqtt.py
+COPY rpi/manager.py /app/manager.py
+COPY rpi/key.py /app/key.py
+
+
 # Run app.py when the container launches
 # The -u flag specifies to use the unbuffered ouput.
 # in this way, what's printed by the app is visible on the host
