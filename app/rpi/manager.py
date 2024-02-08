@@ -60,6 +60,7 @@ class Manager:
                 alarm.deactivate()
                 self.relays.update_mask('00000000')
                 # TODO: if triggered I should turn off relays
+
             
         
         
@@ -99,8 +100,8 @@ class Manager:
 
         # we read all sensors, now we can apply the mask
         if relay_change:
-            self.mqtt.publish_relays(self.relays.mask)
-        
+            self.mqtt.publish_relays(self.relays.aux)
+            self.relays.reset_maks()
 
 
 

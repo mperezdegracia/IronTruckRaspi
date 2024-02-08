@@ -27,6 +27,7 @@ class RelayController(object):
         self.relays = []
         RELAYS_PINS = [14, 27, 10, 9, 11, 0, 5, 6]
         self.mask = 'xxxxxxxx'
+        self.aux = '00000000'
         for pin in RELAYS_PINS:
           self.relays.append(Relay(pin))
 
@@ -40,15 +41,16 @@ class RelayController(object):
         return current_state
 
     def update_mask(self, setting):
-        old_mask = self.mask
-        if old_mask == setting:
-            return False
+        old_mask = self.aux
         for i in range(len(old_mask)):
-            self.mask[i] = '1' if old_mask[i] or setting[i] else '0'
+            self.aux[i] = '1' if setting[i] else '0'
         return True
         # apply new mask
-
-
+    def reset_mask(self):
+        self.relays.mask = self.relays.aux
+        self.relays.aux = '00000000'
+        
+    
     def set_relay(self, relay_num, state):
         self.relays[relay_num].set_state(state)
         self.mask[relay_num] = '1' if state else '0'
