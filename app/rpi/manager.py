@@ -1,9 +1,9 @@
 import logging
-from .relay import RelayMask
-from .mqtt import MqttController
-from .key import *
-from .influx import Influx
-from .relay import RelayController
+from relay import RelayMask
+from mqtt import MqttController
+from key import *
+from influx import Influx
+from relay import RelayController
 import json
 import re
 

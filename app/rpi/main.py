@@ -1,14 +1,14 @@
 
 import threading
 import time
-from .influx import Influx
-from .mqtt import MqttController
-from .manager import Manager
-from .alarm import SensorAlarmSettings
-from .temp import DHT_22
-from .gas import MQ2
-from .key import *
-from .relay import RelayController
+from influx import Influx
+from mqtt import MqttController
+from manager import Manager
+from alarm import SensorAlarmSettings
+from temp import DHT_22
+from gas import MQ2
+from key import *
+from relay import RelayController
 
 
 

@@ -1,7 +1,7 @@
-from .settings import SensorAlarmSettings
-from .temp import DHT_22
-from .gas import MQ2
-from .alarm import Alarm
+from settings import SensorAlarmSettings
+from temp import DHT_22
+from gas import MQ2
+from alarm import Alarm
 # *********** INFLUX *************
 HOST = "influxdb"  # Docker InfluxDB container running address
 PORT = 8086
