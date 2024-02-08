@@ -87,7 +87,6 @@ class Manager:
                 triggered = alarm.detect()
                 
                 if triggered:
-                    relay_change = True
                     if alarm.state:
                         self.relays.update_mask(mask)
                     
