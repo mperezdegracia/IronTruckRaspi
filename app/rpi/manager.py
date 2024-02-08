@@ -71,7 +71,7 @@ class Manager:
     
     def read(self):
        
-        relay_change = False
+        #relay_change = False
         for sensor, alarm in self.sensors.items():
            
             reading = sensor.read()
@@ -97,9 +97,9 @@ class Manager:
                 
 
         # we read all sensors, now we can apply the mask
-        if relay_change:
-            self.mqtt.publish_relays(self.relays.aux)
-            self.relays.reset_masks()
+        #if relay_change:
+        self.mqtt.publish_relays(self.relays.aux)
+        self.relays.reset_masks()
 
 
 
