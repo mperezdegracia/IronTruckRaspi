@@ -9,7 +9,8 @@ from temp import DHT_22
 from gas import MQ2
 from key import *
 from relay import RelayController
-
+import custom_logger
+import logging
 
 
 
