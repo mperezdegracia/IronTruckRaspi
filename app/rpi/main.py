@@ -42,4 +42,8 @@ if __name__ == "__main__":
     keep_alive_thread()
     run_thread()
 
+    
+    while(True):
+        pass
+
    
